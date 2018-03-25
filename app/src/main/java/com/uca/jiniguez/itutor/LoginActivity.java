@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -210,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() >= 0;
     }
 
     /**
@@ -325,8 +326,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Simulate network access.
                 //Thread.sleep(2000);
                 String server_response = "";
+                String pass = mPassword.equals("") ? "" :"&pwd="+mPassword;
 
-                URL urlEndPoint = new URL("http://itutor-env.eu-west-3.elasticbeanstalk.com/user/5aa2cd298581db2bfc32ab1c");
+                URL urlEndPoint = new URL("http://itutor-env.eu-west-3.elasticbeanstalk.com/user?email="+mEmail+pass);
                 HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
 
                 InputStream in = urlConnection.getInputStream();
@@ -340,10 +342,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 jsonObject = server_response;
 
+                if(new JSONArray(jsonObject).length()==0)
+                    return false;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                return false;
             } catch (IOException e) {
                 e.printStackTrace();
+                return false;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
             }
 
             for (String credential : DUMMY_CREDENTIALS) {

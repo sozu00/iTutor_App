@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,7 +47,8 @@ public class MenuActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         try {
-            jsonObject = new JSONObject(getIntent().getStringExtra("json"));
+            String s = getIntent().getStringExtra("json");
+            jsonObject = new JSONArray(s).getJSONObject(0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
