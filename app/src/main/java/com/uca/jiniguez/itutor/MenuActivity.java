@@ -28,7 +28,6 @@ public class MenuActivity extends AppCompatActivity
         setContentView(R.layout.activity_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +51,20 @@ public class MenuActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        View header=navigationView.getHeaderView(0);
+
+        TextView nombre = (TextView)header.findViewById(R.id.name);
+        nombre.setText("Nombre de usuario");
+        TextView mail = (TextView)header.findViewById(R.id.email_header);
+        mail.setText("mail@mail.com");
+        /* TextView nombre = findViewById(R.id.name);
+        TextView mail = (TextView)header.findViewById(R.id.email_header);
+        try {
+            nombre.setText(jsonObject.getString("firstName") + " " + jsonObject.getString("lastName"));
+            mail.setText(jsonObject.getString("email"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
     }
 
     @Override
@@ -91,12 +104,7 @@ public class MenuActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        TextView txt = findViewById(R.id.textView);
-        try {
-            txt.setText(jsonObject.getString("firstName"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {

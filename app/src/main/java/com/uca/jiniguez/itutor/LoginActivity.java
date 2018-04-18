@@ -321,14 +321,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
+            if(true)
+                return true;
             try {
                 // Simulate network access.
                 //Thread.sleep(2000);
                 String server_response = "";
                 String pass = mPassword.equals("") ? "" :"&pwd="+mPassword;
-
-                URL urlEndPoint = new URL("http://itutor-env.eu-west-3.elasticbeanstalk.com/user?email="+mEmail+pass);
+                String url = "http://localhost:5000/";
+                //String url = "http://itutor-env.eu-west-3.elasticbeanstalk.com/";
+                URL urlEndPoint = new URL(url+"user?email="+mEmail+pass);
                 HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
 
                 InputStream in = urlConnection.getInputStream();
@@ -341,8 +343,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
 
                 jsonObject = server_response;
-
-                if(new JSONArray(jsonObject).length()==0)
+                  if(new JSONArray(jsonObject).length()==0)
                     return false;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
