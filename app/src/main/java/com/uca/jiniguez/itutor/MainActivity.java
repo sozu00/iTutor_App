@@ -32,20 +32,19 @@ public class MainActivity extends AppCompatActivity {
         searchFragment = new SearchFragment();
         teacherFragment = new TeacherFragment();
 
+        setFragment(searchFragment);
+
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_search:
-                        mMainNav.setItemBackgroundResource(R.color.colorPrimaryDark);
                         setFragment(searchFragment);
                         return true;
                     case R.id.nav_profile:
-                        mMainNav.setItemBackgroundResource(R.color.colorPrimary);
                         setFragment(profileFragment);
                         return true;
                     case R.id.nav_teachers:
-                        mMainNav.setItemBackgroundResource(R.color.colorAccent);
                         setFragment(teacherFragment);
                         return true;
                     default:
