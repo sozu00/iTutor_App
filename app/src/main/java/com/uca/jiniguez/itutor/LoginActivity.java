@@ -375,8 +375,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 //startActivity(new Intent(LoginActivity.this, MenuActivity.class));
-                Intent intent = new Intent(getBaseContext(), MenuActivity.class);
-                intent.putExtra("json", jsonObject);
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                //intent.putExtra("json", jsonObject);
                 startActivity(intent);
                 //finish();
             } else {
