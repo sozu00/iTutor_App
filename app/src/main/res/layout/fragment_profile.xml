@@ -1,14 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="PROFILE" />
+    <EditText
+        android:id="@+id/phoneEditText"
+        android:layout_width="187dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameEditText"
+        android:ems="10"
+        android:hint="@string/hint_phone"
+        android:inputType="phone"
+        android:text="@string/acc_phone" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/QuoteEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText"
+        android:ems="10"
+        android:hint="@string/hint_quote"
+        android:inputType="textPersonName"
+        android:text="@string/acc_quote" />
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:hint="@string/hint_name"
+        android:inputType="textPersonName"
+        android:text="@string/acc_name" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="249dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phoneEditText"
+        android:ems="10"
+        android:hint="@string/hint_email"
+        android:inputType="textPersonName"
+        android:text="@string/acc_email" />
+
+    <ListView
+        android:id="@+id/SkillsList"
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        android:layout_below="@+id/QuoteEditText"
+        android:entries="@array/pref_example_list_titles"
+        android:scrollbars="horizontal" />
+
+    <item android:id="@+id/action_delete"
+        android:title=""
+        android:icon="@android:drawable/ic_menu_delete"
+        android:showAsAction="collapseActionView|always"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/SkillsList"
+        android:text="Button" />
+
+</RelativeLayout>

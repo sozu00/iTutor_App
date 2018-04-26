@@ -96,4 +96,12 @@
     <string name="nav_profile">Mi Perfil</string>
     <string name="nav_teachers">Mis profesores</string>
     <string name="nav_search">Buscar</string>
+    <string name="acc_email">E-mail</string>
+    <string name="hint_email">Inserta aqui tu email</string>
+    <string name="acc_name">Name</string>
+    <string name="acc_phone">Telefono</string>
+    <string name="acc_quote">Cita</string>
+    <string name="hint_quote">Inserta aqui una cita</string>
+    <string name="hint_phone">Inserta aqui tu telefono</string>
+    <string name="hint_name">Inserta aqui tu nombre</string>
 </resources>
