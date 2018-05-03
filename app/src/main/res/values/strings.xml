@@ -104,4 +104,7 @@
     <string name="hint_quote">Inserta aqui una cita</string>
     <string name="hint_phone">Inserta aqui tu telefono</string>
     <string name="hint_name">Inserta aqui tu nombre</string>
+    <string name="delete">Eliminar</string>
+    <string name="skills">Materias</string>
+    <string name="saveChanges">Guardar Cambios</string>
 </resources>

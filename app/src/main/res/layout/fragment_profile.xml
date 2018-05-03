@@ -1,70 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <EditText
-        android:id="@+id/phoneEditText"
-        android:layout_width="187dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nameEditText"
-        android:ems="10"
-        android:hint="@string/hint_phone"
-        android:inputType="phone"
-        android:text="@string/acc_phone" />
-
-    <EditText
-        android:id="@+id/QuoteEditText"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText"
-        android:ems="10"
-        android:hint="@string/hint_quote"
-        android:inputType="textPersonName"
-        android:text="@string/acc_quote" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/nameEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:hint="@string/hint_name"
-        android:inputType="textPersonName"
-        android:text="@string/acc_name" />
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="316dp"
+            android:layout_height="112dp"
+            android:layout_below="@+id/SkillsList"
+            android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="249dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/phoneEditText"
-        android:ems="10"
-        android:hint="@string/hint_email"
-        android:inputType="textPersonName"
-        android:text="@string/acc_email" />
+        <ListView
+            android:id="@+id/SkillsList"
+            android:layout_width="match_parent"
+            android:layout_height="102dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView"
+            android:entries="@array/pref_example_list_titles"
+            android:scrollbars="horizontal"
+            android:layout_alignParentLeft="true" />
 
-    <ListView
-        android:id="@+id/SkillsList"
-        android:layout_width="match_parent"
-        android:layout_height="144dp"
-        android:layout_below="@+id/QuoteEditText"
-        android:entries="@array/pref_example_list_titles"
-        android:scrollbars="horizontal" />
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="249dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phoneEditText"
+            android:ems="10"
+            android:hint="@string/hint_email"
+            android:inputType="textPersonName"
+            android:text="@string/acc_email" />
 
-    <item android:id="@+id/action_delete"
-        android:title=""
-        android:icon="@android:drawable/ic_menu_delete"
-        android:showAsAction="collapseActionView|always"/>
+        <View
+            android:id="@+id/view2"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_below="@+id/SkillsList"
+            android:background="@android:color/darker_gray" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/SkillsList"
-        android:text="Button" />
+        <EditText
+            android:id="@+id/phoneEditText"
+            android:layout_width="187dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameEditText"
+            android:ems="10"
+            android:hint="@string/hint_phone"
+            android:inputType="phone"
+            android:text="@string/acc_phone" />
 
-</RelativeLayout>
+        <EditText
+            android:id="@+id/QuoteEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editText"
+            android:ems="10"
+            android:hint="@string/hint_quote"
+            android:inputType="textPersonName"
+            android:text="@string/acc_quote" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="156dp"
+            android:layout_height="34dp"
+            android:layout_alignTop="@+id/view"
+            android:text="@string/skills" />
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="323dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:hint="@string/hint_name"
+            android:inputType="textPersonName"
+            android:text="@string/acc_name"
+            android:layout_alignParentLeft="true" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="167dp"
+            android:layout_height="38dp"
+            android:layout_below="@+id/mapView"
+            android:layout_centerHorizontal="true"
+            android:text="@string/saveChanges" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="207dp"
+            android:background="@android:color/darker_gray"
+            android:layout_alignParentLeft="true" />
+
+        <ImageButton
+            android:id="@+id/addSkillBtn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/textView"
+            android:clickable="true"
+            android:src="@android:drawable/ic_input_add"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+</ScrollView>
