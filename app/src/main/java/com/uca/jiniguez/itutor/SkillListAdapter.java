@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomListAdapter extends SimpleAdapter {
+public class SkillListAdapter extends SimpleAdapter {
     List<HashMap<String, String>>elements;
-    public CustomListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
+    public SkillListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
         super(context, data, resource, from, to);
         elements = (List<HashMap<String, String>>) data;
     }

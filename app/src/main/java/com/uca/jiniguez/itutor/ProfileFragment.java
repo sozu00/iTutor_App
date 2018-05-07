@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +56,7 @@ public class ProfileFragment extends Fragment {
 
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item
-        final CustomListAdapter adapter = new CustomListAdapter(v.getContext(), aList, R.layout.list_single, from, to);
+        final SkillListAdapter adapter = new SkillListAdapter(v.getContext(), aList, R.layout.single_skill, from, to);
 
 
         // Getting a reference to listview of main.xml layout file
@@ -78,6 +77,7 @@ public class ProfileFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
+
         return v;
     }
 

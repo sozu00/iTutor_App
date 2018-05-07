@@ -6,9 +6,10 @@
     tools:context=".TeacherFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ListView
+        android:id="@+id/teachersList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="teachers" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>
