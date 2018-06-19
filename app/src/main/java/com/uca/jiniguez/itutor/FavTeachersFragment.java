@@ -2,16 +2,13 @@ package com.uca.jiniguez.itutor;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +18,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TeacherFragment extends Fragment {
+public class FavTeachersFragment extends Fragment {
 
     String[] names = new String[] {
             "Manolito perez",
@@ -31,13 +28,13 @@ public class TeacherFragment extends Fragment {
 
     List<HashMap<String, String>> teachers = new ArrayList<>();
 
-    public TeacherFragment() {
+    public FavTeachersFragment() {
 
         for(String name : names){
             HashMap<String, String> hm = new HashMap<>();
             hm.put("name", name);
             hm.put("phone", "123456");
-            hm.put("quote", "ESTA ES UNA SITA PERFEITA");
+            hm.put("quote", "ESTA ES UNA SITA PERFEITasdasdasdasdasdsaAPERFEITasdasdasda dasdasdsaAPERFEITasd asdasdasdasdsaA ");
             hm.put("icon", Integer.toString(R.drawable.ic_call ));
             teachers.add(hm);
         }
@@ -49,13 +46,13 @@ public class TeacherFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.onCreateView(inflater,container,savedInstanceState);
-        final View v =  inflater.inflate(R.layout.fragment_teacher, container, false);
+        final View v =  inflater.inflate(R.layout.fragment_fav_teacher, container, false);
 
         // Keys used in Hashmap
         String[] from = { "name","phone", "quote", "icon"};
 
         // Ids of views in listview_layout
-        int[] to = { R.id.teacherName, R.id.teacherPhone, R.id.teacherQuote, R.id.callTeacherButton};
+        int[] to = { R.id.teacherName, R.id.teacherPhone, R.id.teacherQuote, R.id.phoneButton};
 
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item

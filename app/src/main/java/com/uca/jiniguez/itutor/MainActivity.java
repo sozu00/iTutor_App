@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ProfileFragment profileFragment;
     private SearchFragment searchFragment;
-    private TeacherFragment teacherFragment;
+    private FavTeachersFragment favTeachersFragment;
 
 
     @Override
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         profileFragment = new ProfileFragment();
         searchFragment = new SearchFragment();
-        teacherFragment = new TeacherFragment();
+        favTeachersFragment = new FavTeachersFragment();
 
         setFragment(searchFragment);
 
@@ -42,10 +42,15 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(searchFragment);
                         return true;
                     case R.id.nav_profile:
+                        profileFragment.skills= new String[] {
+                            "TESTEANDO",
+                            "Lengua",
+                            "Bicicleta"
+                        };
                         setFragment(profileFragment);
                         return true;
                     case R.id.nav_teachers:
-                        setFragment(teacherFragment);
+                        setFragment(favTeachersFragment);
                         return true;
                     default:
                         return false;
@@ -53,16 +58,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Al volver a pulsar el item, para volver al inicio TODO
         mMainNav.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
-            }
-        });
+                    switch (item.getItemId()){
+                        case R.id.nav_search:
+                            setFragment(searchFragment);
+                            break;
+                        case R.id.nav_profile:
+                            profileFragment.skills= new String[] {
+                                    "PROBADO RESELECT",
+                                    "Lengua",
+                                    "Bicicleta"
+                            };
+                            setFragment(profileFragment);
+                            break;
+                        case R.id.nav_teachers:
+                            setFragment(favTeachersFragment);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
 
     }
 
-    private void setFragment(Fragment fragment) {
+    public void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.main_frame, fragment);

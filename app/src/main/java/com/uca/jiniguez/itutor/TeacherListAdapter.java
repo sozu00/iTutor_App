@@ -18,15 +18,17 @@ import java.util.Map;
 
 public class TeacherListAdapter extends SimpleAdapter {
     List<HashMap<String, String>>elements;
+    MainActivity myActivity;
     public TeacherListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
         super(context, data, resource, from, to);
+        myActivity = (MainActivity) context;
         elements = (List<HashMap<String, String>>) data;
     }
 
     @Override
     public View getView(final int position, final View convertView, ViewGroup parent) {
         final View v = super.getView(position, convertView, parent);
-        ImageButton callTeacher = v.findViewById(R.id.callTeacherButton);
+        ImageButton callTeacher = v.findViewById(R.id.phoneButton);
         callTeacher.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v2) {
                 String phn = elements.get(position).get("phone");
@@ -40,6 +42,15 @@ public class TeacherListAdapter extends SimpleAdapter {
                 v2.getContext().startActivity(callIntent);
             }
         });
+
+        ImageButton moreInfo = v.findViewById(R.id.moreInfoButton);
+        moreInfo.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v2) {
+                myActivity.setFragment(new ProfileFragment());
+            }
+        });
+
         return v;
     }
+
 }

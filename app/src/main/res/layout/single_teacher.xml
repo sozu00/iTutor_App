@@ -12,38 +12,55 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="0dp"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp" />
 
     <TextView
         android:id="@+id/teacherPhone"
-        android:layout_width="233dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="33dp"
+        android:layout_alignStart="@+id/teacherName"
+        android:layout_below="@+id/teacherName"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
         android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
         android:textStyle="italic"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignLeft="@+id/teacherName" />
 
     <TextView
         android:id="@+id/teacherQuote"
-        android:layout_width="match_parent"
+        android:layout_width="298dp"
         android:layout_height="58dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="84dp"
-        android:layout_alignParentLeft="true" />
+        android:layout_below="@+id/teacherPhone"
+        android:layout_marginStart="16dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp" />
 
     <ImageButton
-        android:id="@+id/callTeacherButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignTop="@+id/teacherPhone"
-        android:layout_toEndOf="@+id/teacherPhone"
-        android:adjustViewBounds="false"
+        android:id="@+id/moreInfoButton"
+        android:layout_width="71dp"
+        android:layout_height="108dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
-        android:contentDescription="@string/call"
-        android:cropToPadding="false"
-        app:srcCompat="@android:drawable/sym_action_call"
+        android:tint="@android:color/background_dark"
+        app:srcCompat="@android:drawable/ic_menu_info_details"
+        android:layout_alignParentRight="true" />
+
+    <ImageButton
+        android:id="@+id/phoneButton"
+        android:layout_width="18sp"
+        android:layout_height="32sp"
+        android:layout_below="@+id/teacherName"
+        android:layout_toEndOf="@+id/teacherPhone"
+        android:layout_marginStart="8dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_call"
+        android:layout_marginLeft="8dp"
         android:layout_toRightOf="@+id/teacherPhone" />
+
 </RelativeLayout>
