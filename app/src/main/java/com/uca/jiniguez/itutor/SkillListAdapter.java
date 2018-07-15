@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,22 @@ public class SkillListAdapter extends SimpleAdapter {
             }
         });
         return v;
+    }
+
+    public void addSkills(List<String> skills) {
+        for(String skill : skills){
+            HashMap<String, String> hm = new HashMap<>();
+            hm.put("txt", skill);
+            hm.put("flag", Integer.toString(R.drawable.ic_delete ));
+            elements.add(hm);
+        }
+    }
+
+    public List<String> getSkills(){
+        List<String> skills = new ArrayList<String>();
+        for(HashMap<String, String> a: elements){
+            skills.add(a.get("txt"));
+        }
+        return skills;
     }
 }

@@ -5,6 +5,7 @@ import android.Manifest;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,6 @@ public class SearchFragment extends Fragment {
             "juan valdes"
     };
     List<HashMap<String, String>> teachers = new ArrayList<>();
-
     public SearchFragment() {
         for(String name : names){
             HashMap<String, String> hm = new HashMap<>();
@@ -46,7 +46,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         super.onCreateView(inflater,container,savedInstanceState);
         final View v =  inflater.inflate(R.layout.fragment_search, container, false);
-        //final ImageButton searchButton = (ImageButton) v.findViewById(R.id.searchButton);
+        final ImageButton searchButton = v.findViewById(R.id.searchButton);
         // Keys used in Hashmap
         String[] from = { "name","phone", "quote", "icon"};
 
@@ -65,7 +65,16 @@ public class SearchFragment extends Fragment {
                 0);
         // Setting the adapter to the listView
         listView.setAdapter(adapter);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
 
+                fragmentTransaction.replace(R.id.main_frame, new FiltersFragment());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         return v;
     }

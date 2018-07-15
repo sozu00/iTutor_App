@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -19,11 +22,21 @@ public class MainActivity extends AppCompatActivity {
     private SearchFragment searchFragment;
     private FavTeachersFragment favTeachersFragment;
 
-
+    public UserData userData = new UserData();
+    JSONObject datos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String json = getIntent().getStringExtra("json");
+        try {
+             datos = new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        userData.getDataFromJson(datos);
+        //userData.downloadData();
 
         mMainFrame = findViewById(R.id.main_frame);
         mMainNav = findViewById(R.id.main_nav);
@@ -42,14 +55,11 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(searchFragment);
                         return true;
                     case R.id.nav_profile:
-                        profileFragment.skills= new String[] {
-                            "TESTEANDO",
-                            "Lengua",
-                            "Bicicleta"
-                        };
+                        profileFragment.setUserData(userData);
                         setFragment(profileFragment);
                         return true;
                     case R.id.nav_teachers:
+                        favTeachersFragment.setUserData(userData);
                         setFragment(favTeachersFragment);
                         return true;
                     default:
@@ -66,11 +76,7 @@ public class MainActivity extends AppCompatActivity {
                             setFragment(searchFragment);
                             break;
                         case R.id.nav_profile:
-                            profileFragment.skills= new String[] {
-                                    "PROBADO RESELECT",
-                                    "Lengua",
-                                    "Bicicleta"
-                            };
+                            profileFragment.setUserData(userData);
                             setFragment(profileFragment);
                             break;
                         case R.id.nav_teachers:
@@ -88,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
     }

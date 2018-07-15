@@ -321,6 +321,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            jsonObject = "{\n" +
+                    "    \"id\": \"5b2566763096c920fc20c433\",\n" +
+                    "    \"email\": \"correo@correo.es\",\n" +
+                    "    \"name\": \"Antonio Baggins\",\n" +
+                    "    \"phoneNum\": null,\n" +
+                    "    \"quote\": \"DASDASDAS\",\n" +
+                    "    \"password\": \"1234\",\n" +
+                    "    \"latitude\": 40.5053817,\n" +
+                    "    \"longitude\": -3.6812296,\n" +
+                    "    \"teachers\": [],\n" +
+                    "    \"skills\": [\n" +
+                    "        {\n" +
+                    "            \"id\": \"5b2568733096c90ec45c0419\",\n" +
+                    "            \"skillName\": \"guitarra\",\n" +
+                    "            \"teachers\": []\n" +
+                    "        }\n" +
+                    "    ]\n" +
+                    "}";
             if(true)
                 return true;
             try {
@@ -328,8 +346,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //Thread.sleep(2000);
                 String server_response = "";
                 String pass = mPassword.equals("") ? "" :"&pwd="+mPassword;
-                String url = "http://localhost:5000/";
-                //String url = "http://itutor-env.eu-west-3.elasticbeanstalk.com/";
+                String url = "http://itutor-env.eu-west-3.elasticbeanstalk.com/";
                 URL urlEndPoint = new URL(url+"user?email="+mEmail+pass);
                 HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
 
@@ -374,11 +391,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                //startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                //intent.putExtra("json", jsonObject);
+                intent.putExtra("json", jsonObject);
                 startActivity(intent);
-                //finish();
+                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

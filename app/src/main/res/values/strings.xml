@@ -108,4 +108,6 @@
     <string name="skills">Materias</string>
     <string name="saveChanges">Guardar Cambios</string>
     <string name="call">Llamar</string>
+    <string name="filter_skill">Materia</string>
+    <string name="max_distance">Distancia</string>
 </resources>

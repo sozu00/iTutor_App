@@ -27,6 +27,7 @@ public class FavTeachersFragment extends Fragment {
     };
 
     List<HashMap<String, String>> teachers = new ArrayList<>();
+    private UserData userData;
 
     public FavTeachersFragment() {
 
@@ -71,4 +72,7 @@ public class FavTeachersFragment extends Fragment {
         return v;
     }
 
+    public void setUserData(UserData userData) {
+        this.userData = userData;
+    }
 }

@@ -14,9 +14,10 @@
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="316dp"
-            android:layout_height="112dp"
+            android:layout_height="89dp"
             android:layout_below="@+id/SkillsList"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="23dp" />
 
         <ListView
             android:id="@+id/SkillsList"
@@ -29,7 +30,7 @@
             android:layout_alignParentLeft="true" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/mailEditText"
             android:layout_width="249dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/phoneEditText"
@@ -59,7 +60,7 @@
             android:id="@+id/QuoteEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editText"
+            android:layout_below="@+id/mailEditText"
             android:ems="10"
             android:hint="@string/hint_quote"
             android:inputType="textPersonName"
@@ -85,7 +86,7 @@
             android:layout_alignParentLeft="true" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/saveDataButton"
             android:layout_width="167dp"
             android:layout_height="38dp"
             android:layout_below="@+id/mapView"

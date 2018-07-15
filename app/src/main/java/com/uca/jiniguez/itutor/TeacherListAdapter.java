@@ -46,7 +46,7 @@ public class TeacherListAdapter extends SimpleAdapter {
         ImageButton moreInfo = v.findViewById(R.id.moreInfoButton);
         moreInfo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v2) {
-                myActivity.setFragment(new ProfileFragment());
+                myActivity.setFragment(new TeacherProfileFragment());
             }
         });
 

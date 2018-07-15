@@ -14,12 +14,12 @@
         <TextView
             android:id="@+id/quoteTextView"
             android:layout_width="match_parent"
-            android:layout_height="77dp"
+            android:layout_height="90dp"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/eMailTextView"
             android:text="Cita"
-            android:textSize="18sp"
-            android:layout_alignParentLeft="true" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/phoneTextView"
@@ -64,7 +64,6 @@
             android:layout_height="102dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView"
-            android:entries="@array/pref_example_list_titles"
             android:scrollbars="horizontal"
             android:layout_alignParentLeft="true" />
 
@@ -89,8 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="207dp"
+            android:layout_alignTop="@+id/SkillsList"
             android:background="@android:color/darker_gray"
             android:layout_alignParentLeft="true" />
 
