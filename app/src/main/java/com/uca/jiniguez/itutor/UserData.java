@@ -20,28 +20,13 @@ public class UserData {
     String phoneNumber;
     String email;
     String quote;
+    String password;
     List<String> skills = new ArrayList<>();
     LatLng position;
     List<String> teachers = new ArrayList<>();
 
     public UserData(){
         //downloadData();
-    }
-
-    public void downloadData(){
-        //buscar(userID);
-        skills.clear();
-        skills.add("Matematicas");
-        skills.add("Lengua");
-        skills.add("Bicicleta");
-        userName = "Jesus Iniguez";
-        phoneNumber = "956123123";
-        email = "correo@correo.com";
-        quote = "Me gusta mucho escribir y escribir bla bla bla esto es lo mejor del mundo mundial";
-        teachers.clear();
-        teachers.add("id_DB_USER1");
-        teachers.add("id_DB_USER2");
-        position = new LatLng(40.5053817,-3.6812296);
     }
 
     public void uploadData(){
@@ -58,12 +43,13 @@ public class UserData {
                     conn.setDoInput(true);
 
                     JSONObject jsonParam = new JSONObject();
-                    jsonParam.put("name",userName);
-                    jsonParam.put("phoneNum",phoneNumber);
-                    jsonParam.put("email",email);
-                    jsonParam.put("quote",quote);
-                    jsonParam.put("latitude",position.latitude);
-                    jsonParam.put("longitude",position.longitude);
+                    jsonParam.put("name", userName);
+                    jsonParam.put("phoneNum", phoneNumber);
+                    jsonParam.put("email", email);
+                    jsonParam.put("quote", quote);
+                    jsonParam.put("password", password);
+                    jsonParam.put("latitude", position.latitude);
+                    jsonParam.put("longitude", position.longitude);
                     jsonParam.put("teachers", new JSONArray(teachers));
                     jsonParam.put("skills", new JSONArray(skills));
 
@@ -98,6 +84,7 @@ public class UserData {
             phoneNumber = datos.getString("phoneNum");
             email = datos.getString("email");
             quote = datos.getString("quote");
+            password = datos.getString("password");
             position = new LatLng(datos.getDouble("latitude"), datos.getDouble("longitude"));
             teachers.clear();
             JSONArray jsonTeachers = datos.getJSONArray("teachers");
