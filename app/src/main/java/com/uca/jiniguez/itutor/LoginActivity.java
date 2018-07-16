@@ -321,33 +321,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            jsonObject = "{\n" +
-                    "    \"id\": \"5b2566763096c920fc20c433\",\n" +
-                    "    \"email\": \"correo@correo.es\",\n" +
-                    "    \"name\": \"Antonio Baggins\",\n" +
-                    "    \"phoneNum\": null,\n" +
-                    "    \"quote\": \"DASDASDAS\",\n" +
-                    "    \"password\": \"1234\",\n" +
-                    "    \"latitude\": 40.5053817,\n" +
-                    "    \"longitude\": -3.6812296,\n" +
-                    "    \"teachers\": [],\n" +
-                    "    \"skills\": [\n" +
-                    "        {\n" +
-                    "            \"id\": \"5b2568733096c90ec45c0419\",\n" +
-                    "            \"skillName\": \"guitarra\",\n" +
-                    "            \"teachers\": []\n" +
-                    "        }\n" +
-                    "    ]\n" +
-                    "}";
-            if(true)
-                return true;
             try {
                 // Simulate network access.
                 //Thread.sleep(2000);
                 String server_response = "";
                 String pass = mPassword.equals("") ? "" :"&pwd="+mPassword;
-                String url = "http://itutor-env.eu-west-3.elasticbeanstalk.com/";
-                URL urlEndPoint = new URL(url+"user?email="+mEmail+pass);
+                String url = "http://10.23.99.82:5000/user/login";
+                //String url = "http://itutor-env.eu-west-3.elasticbeanstalk.com/";
+                URL urlEndPoint = new URL(url+"?email="+mEmail+pass);
                 HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
 
                 InputStream in = urlConnection.getInputStream();
@@ -360,7 +341,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
 
                 jsonObject = server_response;
-                  if(new JSONArray(jsonObject).length()==0)
+                if(new JSONArray(jsonObject).length()==0)
                     return false;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -392,7 +373,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                intent.putExtra("json", jsonObject);
+                intent.putExtra("json", jsonObject.substring(1,jsonObject.lastIndexOf(']')));
                 startActivity(intent);
                 finish();
             } else {
