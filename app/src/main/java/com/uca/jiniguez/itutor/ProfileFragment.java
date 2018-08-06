@@ -1,12 +1,14 @@
 package com.uca.jiniguez.itutor;
 
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -47,11 +49,12 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
     ListView listView;
     EditText nameTextView;
     EditText phoneTextView;
-    EditText mailTextView;
+    TextView mailTextView;
     EditText quoteTextView;
 
     public ProfileFragment() {}
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,13 +95,25 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
             }
         });
         loadAllData();
+
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+
         return v;
     }
 
     private void saveAllData() {
         userData.userName = nameTextView.getText().toString();
         userData.phoneNumber = phoneTextView.getText().toString();
-        userData.email = mailTextView.getText().toString();
         userData.quote = quoteTextView.getText().toString();
         userData.skills = adapter.getSkills();
         userData.uploadData();

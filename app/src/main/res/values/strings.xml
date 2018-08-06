@@ -110,4 +110,5 @@
     <string name="call">Llamar</string>
     <string name="filter_skill">Materia</string>
     <string name="max_distance">Distancia</string>
+    <string name="action_sign_new">Registrar</string>
 </resources>

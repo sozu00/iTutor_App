@@ -26,17 +26,15 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView"
             android:entries="@array/pref_example_list_titles"
-            android:scrollbars="horizontal"
+            android:scrollbars="vertical"
             android:layout_alignParentLeft="true" />
 
-        <EditText
+        <TextView
             android:id="@+id/mailEditText"
             android:layout_width="249dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/phoneEditText"
             android:ems="10"
-            android:hint="@string/hint_email"
-            android:inputType="textPersonName"
             android:text="@string/acc_email" />
 
         <View

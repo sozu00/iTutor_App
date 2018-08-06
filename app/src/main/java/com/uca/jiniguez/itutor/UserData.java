@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserData {
+    static String url = "http://10.23.99.82:5000/";
     String userID;
     String userName;
     String phoneNumber;
@@ -22,19 +23,58 @@ public class UserData {
     String quote;
     String password;
     List<String> skills = new ArrayList<>();
-    LatLng position;
+    LatLng position = new LatLng(0,0);
     List<String> teachers = new ArrayList<>();
 
     public UserData(){
         //downloadData();
     }
 
+    public void createUser(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(UserData.url+"/user");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject jsonParam = new JSONObject();
+                    jsonParam.put("email", email);
+                    jsonParam.put("password", password);
+
+                    Log.i("JSON", jsonParam.toString());
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    os.writeBytes(jsonParam.toString());
+
+                    os.flush();
+                    os.close();
+
+                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.i("MSG" , conn.getResponseMessage());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     public void uploadData(){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://10.23.99.82:5000/user/"+userID);
+                    URL url = new URL(UserData.url+"/user/"+userID);
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("PUT");
                     conn.setRequestProperty("Content-Type", "application/json");
