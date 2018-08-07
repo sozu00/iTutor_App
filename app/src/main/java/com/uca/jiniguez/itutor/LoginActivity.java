@@ -118,6 +118,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    private void openS3(){
+        Intent intent = new Intent(getBaseContext(), S3Activity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void attemptRegister() {
         // Reset errors.
         mEmailView.setError(null);
@@ -150,11 +156,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // form field with an error.
             focusView.requestFocus();
         } else {
-            /*
-            Spinner spinner = (Spinner) findViewById(R.id.spinner);
-            String[] letra = {"A","B","C","D","E"};
-            spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, letra));
-            */
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle("Confirma la creacion del usuario");
@@ -451,6 +452,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
+                openS3();
             }
         }
 
