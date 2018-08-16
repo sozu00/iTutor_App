@@ -1,71 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/quoteTextView"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/eMailTextView"
+            android:layout_below="@+id/mailTextView"
+            android:singleLine="false"
             android:text="Cita"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/phoneTextView"
             android:layout_width="238dp"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/nameTextView"
             android:text="Teléfono"
-            android:textSize="18sp"
-            android:layout_alignParentLeft="true" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/nameTextView"
             android:layout_width="322dp"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:text="Nombre"
-            android:textSize="18sp"
-            android:layout_alignParentLeft="true" />
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/eMailTextView"
+            android:id="@+id/mailTextView"
             android:layout_width="322dp"
-            android:layout_height="42dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/phoneTextView"
             android:text="eMail"
-            android:textSize="18sp"
-            android:layout_alignParentLeft="true" />
+            android:textSize="18sp" />
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
             android:layout_width="316dp"
-            android:layout_height="112dp"
+            android:layout_height="120dp"
             android:layout_below="@+id/SkillsList"
             android:layout_centerHorizontal="true" />
 
         <ListView
             android:id="@+id/SkillsList"
             android:layout_width="match_parent"
-            android:layout_height="102dp"
+            android:layout_height="186dp"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textView"
-            android:scrollbars="horizontal"
-            android:layout_alignParentLeft="true" />
+            android:scrollbars="horizontal" />
 
         <View
             android:id="@+id/view2"
@@ -77,20 +78,57 @@
         <TextView
             android:id="@+id/textView"
             android:layout_width="156dp"
-            android:layout_height="34dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/quoteTextView"
+            android:layout_below="@+id/blankSpaceQuoteSkill"
             android:text="@string/skills"
             android:layout_alignParentLeft="true" />
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/blankSpaceQuoteSkill"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/quoteTextView"
+            android:background="@android:color/darker_gray"
+            android:visibility="invisible"
+            android:layout_alignParentLeft="true" />
+
+        <View
+            android:id="@+id/view3"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/SkillsList"
             android:background="@android:color/darker_gray"
-            android:layout_alignParentLeft="true" />
+            android:visibility="visible" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mapView"
+            android:layout_centerHorizontal="true"
+            android:isIndicator="true"
+            android:numStars="5" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/voteFloatButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/callFloatbutton"
+            android:clickable="true"
+            android:src="@android:drawable/checkbox_on_background" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/callFloatbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:clickable="true"
+            android:src="@drawable/ic_call" />
 
     </RelativeLayout>
 </ScrollView>

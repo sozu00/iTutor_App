@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Map;
 
 public class TeacherListAdapter extends SimpleAdapter {
-    List<HashMap<String, String>>elements;
+    List<HashMap<String, Object>>elements;
     MainActivity myActivity;
     public TeacherListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
         super(context, data, resource, from, to);
         myActivity = (MainActivity) context;
-        elements = (List<HashMap<String, String>>) data;
+        elements = (List<HashMap<String, Object>>) data;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class TeacherListAdapter extends SimpleAdapter {
         ImageButton callTeacher = v.findViewById(R.id.phoneButton);
         callTeacher.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v2) {
-                String phn = elements.get(position).get("phone");
+                String phn = (String) elements.get(position).get("phone");
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 callIntent.setData(Uri.parse("tel:"+phn));
                 // No explanation needed; request the permission
@@ -46,7 +46,9 @@ public class TeacherListAdapter extends SimpleAdapter {
         ImageButton moreInfo = v.findViewById(R.id.moreInfoButton);
         moreInfo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v2) {
-                myActivity.setFragment(new TeacherProfileFragment());
+                TeacherProfileFragment profileFragment = new TeacherProfileFragment();
+                profileFragment.setUserData((UserData) elements.get(position).get("data"));
+                myActivity.setFragment(profileFragment);
             }
         });
 

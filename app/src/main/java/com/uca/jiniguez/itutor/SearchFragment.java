@@ -21,24 +21,10 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class SearchFragment extends Fragment {
+    List<HashMap<String, Object>> teachers = new ArrayList<>();
 
-    String[] names = new String[] {
-            "Manolito perez",
-            "Pepito pere",
-            "juan valdes"
-    };
-    List<HashMap<String, String>> teachers = new ArrayList<>();
     public SearchFragment() {
-        for(String name : names){
-            HashMap<String, String> hm = new HashMap<>();
-            hm.put("name", name);
-            hm.put("phone", "000000000000000");
-            hm.put("quote", "ESTA ES UNA SITA PERFEITasdasdasdasdasdsaAPERFEITasdasdasda dasdasdsaAPERFEITasd asdasdasdasdsaA ");
-            hm.put("icon", Integer.toString(R.drawable.ic_call ));
-            teachers.add(hm);
-        }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +34,7 @@ public class SearchFragment extends Fragment {
         final View v =  inflater.inflate(R.layout.fragment_search, container, false);
         final ImageButton searchButton = v.findViewById(R.id.searchButton);
         // Keys used in Hashmap
-        String[] from = { "name","phone", "quote", "icon"};
+        String[] from = { "name","phone", "mDescription", "icon"};
 
         // Ids of views in listview_layout
         int[] to = { R.id.teacherName, R.id.teacherPhone, R.id.teacherQuote, R.id.phoneButton};
@@ -79,4 +65,17 @@ public class SearchFragment extends Fragment {
         return v;
     }
 
+    public void setUserData(List<UserData> allUsers) {
+        teachers.clear();
+        for(UserData user : allUsers){
+            HashMap<String, Object> hm = new HashMap<>();
+            hm.put("id", user.mID);
+            hm.put("name", user.mName);
+            hm.put("phone", user.mPhone);
+            hm.put("mDescription", user.mDescription);
+            hm.put("icon", Integer.toString(R.drawable.ic_call ));
+            hm.put("data", user);
+            teachers.add(hm);
+        }
+    }
 }

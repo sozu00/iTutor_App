@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,12 +24,10 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**
@@ -37,20 +35,20 @@ import java.util.List;
  */
 public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
 
-    View v;
-    ImageButton delete;
+    private View v;
     private UserData userData;
-    String newSkill = "";
-    GoogleMap mGoogleMap;
-    MapView mMapView;
-    SkillListAdapter adapter;
-    ImageButton addSkill;
-    Button saveData;
-    ListView listView;
-    EditText nameTextView;
-    EditText phoneTextView;
-    TextView mailTextView;
-    EditText quoteTextView;
+    private String newSkill = "";
+    private GoogleMap mGoogleMap;
+    private MapView mMapView;
+    private SkillListAdapter adapter;
+    private ImageButton addSkill;
+    private Button saveData;
+    private ListView listView;
+    private EditText nameTextView;
+    private EditText phoneTextView;
+    private TextView mailTextView;
+    private EditText quoteTextView;
+    private RatingBar ratingBar;
 
     public ProfileFragment() {}
 
@@ -69,6 +67,7 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
         phoneTextView = v.findViewById(R.id.phoneEditText);
         mailTextView = v.findViewById(R.id.mailEditText);
         quoteTextView = v.findViewById(R.id.QuoteEditText);
+        ratingBar = v.findViewById(R.id.ratingBar);
 
         if(mMapView!=null) {
             mMapView.onCreate(null);
@@ -112,20 +111,21 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
     }
 
     private void saveAllData() {
-        userData.userName = nameTextView.getText().toString();
-        userData.phoneNumber = phoneTextView.getText().toString();
-        userData.quote = quoteTextView.getText().toString();
-        userData.skills = adapter.getSkills();
+        userData.mName = nameTextView.getText().toString();
+        userData.mPhone = phoneTextView.getText().toString();
+        userData.mDescription = quoteTextView.getText().toString();
+        userData.mSkills = adapter.getSkills();
         userData.uploadData();
         ((MainActivity) v.getContext()).userData = userData;
     }
 
     private void loadAllData(){
-        nameTextView.setText(userData.userName);
-        phoneTextView.setText(userData.phoneNumber);
-        mailTextView.setText(userData.email);
-        quoteTextView.setText(userData.quote);
-        adapter.addSkills(userData.skills);
+        nameTextView.setText(userData.mName);
+        phoneTextView.setText(userData.mPhone);
+        mailTextView.setText(userData.mEmail);
+        quoteTextView.setText(userData.mDescription);
+        adapter.addSkills(userData.mSkills);
+        ratingBar.setRating(userData.mRating);
     }
 
 
@@ -172,9 +172,9 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
 
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(userData.position));
+        googleMap.addMarker(new MarkerOptions().position(userData.mPosition));
 
-        CameraPosition Position = CameraPosition.builder().target(userData.position).zoom(16).bearing(0).tilt(45).build();
+        CameraPosition Position = CameraPosition.builder().target(userData.mPosition).zoom(16).bearing(0).tilt(45).build();
 
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Position));
     }

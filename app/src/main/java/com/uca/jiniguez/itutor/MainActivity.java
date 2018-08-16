@@ -12,6 +12,9 @@ import android.widget.FrameLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private FavTeachersFragment favTeachersFragment;
 
     public UserData userData = new UserData();
+    public List<UserData> allUsers = new ArrayList<>();
     JSONObject datos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         userData.getDataFromJson(datos);
         //userData.downloadData();
-
+        allUsers = UserData.getUsers("",0,null,0);
         mMainFrame = findViewById(R.id.main_frame);
         mMainNav = findViewById(R.id.main_nav);
 
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         searchFragment = new SearchFragment();
         favTeachersFragment = new FavTeachersFragment();
 
+        searchFragment.setUserData(allUsers);
         setFragment(searchFragment);
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -52,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_search:
+                        allUsers = UserData.getUsers("",0,null,0);
+                        searchFragment.setUserData(allUsers);
                         setFragment(searchFragment);
                         return true;
                     case R.id.nav_profile:
@@ -73,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
             public void onNavigationItemReselected(@NonNull MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.nav_search:
+                            allUsers = UserData.getUsers("",0,null,0);
+                            searchFragment.setUserData(allUsers);
                             setFragment(searchFragment);
                             break;
                         case R.id.nav_profile:

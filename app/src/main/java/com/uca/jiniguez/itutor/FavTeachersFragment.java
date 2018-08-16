@@ -35,7 +35,7 @@ public class FavTeachersFragment extends Fragment {
             HashMap<String, String> hm = new HashMap<>();
             hm.put("name", name);
             hm.put("phone", "123456");
-            hm.put("quote", "ESTA ES UNA SITA PERFEITasdasdasdasdasdsaAPERFEITasdasdasda dasdasdsaAPERFEITasd asdasdasdasdsaA ");
+            hm.put("mDescription", "ESTA ES UNA SITA PERFEITasdasdasdasdasdsaAPERFEITasdasdasda dasdasdsaAPERFEITasd asdasdasdasdsaA ");
             hm.put("icon", Integer.toString(R.drawable.ic_call ));
             teachers.add(hm);
         }
@@ -50,7 +50,7 @@ public class FavTeachersFragment extends Fragment {
         final View v =  inflater.inflate(R.layout.fragment_fav_teacher, container, false);
 
         // Keys used in Hashmap
-        String[] from = { "name","phone", "quote", "icon"};
+        String[] from = { "name","phone", "mDescription", "icon"};
 
         // Ids of views in listview_layout
         int[] to = { R.id.teacherName, R.id.teacherPhone, R.id.teacherQuote, R.id.phoneButton};

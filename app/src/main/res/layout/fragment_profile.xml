@@ -33,9 +33,12 @@
             android:id="@+id/mailEditText"
             android:layout_width="249dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/phoneEditText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/nameEditText"
             android:ems="10"
-            android:text="@string/acc_email" />
+            android:text="@string/acc_email"
+            android:textSize="18sp"
+            android:layout_alignParentLeft="true" />
 
         <View
             android:id="@+id/view2"
@@ -48,7 +51,8 @@
             android:id="@+id/phoneEditText"
             android:layout_width="187dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/nameEditText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/mailEditText"
             android:ems="10"
             android:hint="@string/hint_phone"
             android:inputType="phone"
@@ -58,7 +62,8 @@
             android:id="@+id/QuoteEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/mailEditText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/phoneEditText"
             android:ems="10"
             android:hint="@string/hint_quote"
             android:inputType="textPersonName"
@@ -68,20 +73,21 @@
             android:id="@+id/textView"
             android:layout_width="156dp"
             android:layout_height="34dp"
-            android:layout_alignTop="@+id/view"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/blankSpaceQuoteSkill"
             android:text="@string/skills" />
 
         <EditText
             android:id="@+id/nameEditText"
-            android:layout_width="323dp"
+            android:layout_width="247dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:ems="10"
             android:hint="@string/hint_name"
             android:inputType="textPersonName"
-            android:text="@string/acc_name"
-            android:layout_alignParentLeft="true" />
+            android:text="@string/acc_name" />
 
         <Button
             android:id="@+id/saveDataButton"
@@ -92,14 +98,13 @@
             android:text="@string/saveChanges" />
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/blankSpaceQuoteSkill"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="207dp"
-            android:background="@android:color/darker_gray"
-            android:layout_alignParentLeft="true" />
+            android:layout_marginTop="208dp"
+            android:background="@android:color/darker_gray" />
 
         <ImageButton
             android:id="@+id/addSkillBtn"
@@ -110,5 +115,16 @@
             android:clickable="true"
             android:src="@android:drawable/ic_input_add"
             android:layout_alignParentRight="true" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@android:style/Widget.RatingBar"
+            android:layout_width="171dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="0dp"
+            android:isIndicator="true"
+            android:numStars="5" />
     </RelativeLayout>
 </ScrollView>
