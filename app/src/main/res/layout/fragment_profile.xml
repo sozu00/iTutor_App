@@ -7,50 +7,60 @@
     tools:context=".ProfileFragment">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="316dp"
-            android:layout_height="89dp"
+        <View
+            android:id="@+id/skillLineAbove2"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/SkillsList"
+            android:background="@android:color/darker_gray"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/skillLineBelow2"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
             android:layout_below="@+id/SkillsList"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="23dp" />
+            android:background="@android:color/darker_gray" />
+
+        <RatingBar
+            android:id="@+id/voteRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/nameEditText"
+            android:isIndicator="true"
+            android:numStars="5" />
 
         <ListView
             android:id="@+id/SkillsList"
             android:layout_width="match_parent"
-            android:layout_height="102dp"
+            android:layout_height="105dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/skillTextView"
             android:entries="@array/pref_example_list_titles"
-            android:scrollbars="vertical"
-            android:layout_alignParentLeft="true" />
+            android:scrollbars="vertical" />
 
         <TextView
             android:id="@+id/mailEditText"
             android:layout_width="249dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/nameEditText"
+            android:layout_below="@+id/voteRating"
             android:ems="10"
             android:text="@string/acc_email"
-            android:textSize="18sp"
-            android:layout_alignParentLeft="true" />
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_below="@+id/SkillsList"
-            android:background="@android:color/darker_gray" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/phoneEditText"
-            android:layout_width="187dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/mailEditText"
             android:ems="10"
@@ -62,24 +72,26 @@
             android:id="@+id/QuoteEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/phoneEditText"
             android:ems="10"
             android:hint="@string/hint_quote"
-            android:inputType="textPersonName"
+            android:inputType="textMultiLine"
             android:text="@string/acc_quote" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/skillTextView"
             android:layout_width="156dp"
             android:layout_height="34dp"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/blankSpaceQuoteSkill"
             android:text="@string/skills" />
 
         <EditText
             android:id="@+id/nameEditText"
-            android:layout_width="247dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -93,38 +105,38 @@
             android:id="@+id/saveDataButton"
             android:layout_width="167dp"
             android:layout_height="38dp"
-            android:layout_below="@+id/mapView"
+            android:layout_below="@+id/SkillsList"
             android:layout_centerHorizontal="true"
             android:text="@string/saveChanges" />
 
         <View
             android:id="@+id/blankSpaceQuoteSkill"
             android:layout_width="wrap_content"
-            android:layout_height="1dp"
+            android:layout_height="46dp"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="208dp"
-            android:background="@android:color/darker_gray" />
+            android:layout_below="@+id/QuoteEditText"
+            android:background="@android:color/white" />
 
         <ImageButton
-            android:id="@+id/addSkillBtn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:id="@+id/addSkillbtn"
+            android:layout_width="40dp"
+            android:layout_height="37dp"
+            android:layout_above="@+id/skillLineAbove2"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/textView"
-            android:clickable="true"
-            android:src="@android:drawable/ic_input_add"
-            android:layout_alignParentRight="true" />
+            android:contentDescription="Add Skill"
+            android:src="@android:drawable/ic_input_add" />
 
-        <RatingBar
-            android:id="@+id/ratingBar"
-            style="@android:style/Widget.RatingBar"
-            android:layout_width="171dp"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/votesInfo"
+            android:layout_width="47dp"
+            android:layout_height="57dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="0dp"
-            android:isIndicator="true"
-            android:numStars="5" />
+            android:layout_alignTop="@+id/voteRating"
+            android:background="@color/colorWhiteTransparent"
+            android:cropToPadding="false"
+            android:src="@android:drawable/ic_dialog_info"
+            android:tint="@color/colorPrimaryDark" />
+
     </RelativeLayout>
 </ScrollView>

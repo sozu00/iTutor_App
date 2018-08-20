@@ -6,6 +6,26 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/ratingTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/distanceBarValue"
+        android:text="@string/rating_minimo"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <SeekBar
+        android:id="@+id/ratingFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="169dp"
+        android:max="5"
+        android:progress="0" />
+
+    <TextView
         android:id="@+id/distanceTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +63,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="45dp"
         android:layout_marginStart="30dp"
-        android:text="Aplicar Filtros" />
+        android:text="@string/aplicar_filtros" />
 
     <Button
         android:id="@+id/clearFiltersButton"
@@ -52,10 +72,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/applyFiltersButton"
         android:layout_marginEnd="30dp"
-        android:text="Limpiar Filtros" />
+        android:text="@string/limpiar_filtros" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/distanceBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -64,10 +84,17 @@
         android:progress="0" />
 
     <TextView
-        android:id="@+id/seekbarValue"
+        android:id="@+id/distanceBarValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/seekBar"
+        android:layout_below="@+id/distanceBar"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/ratingBarValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ratingFilter"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

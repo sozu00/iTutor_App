@@ -1,134 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/votesInfoTeacher"
+                android:layout_width="47dp"
+                android:layout_height="57dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@+id/voteRating"
+                android:background="@color/colorWhiteTransparent"
+                android:cropToPadding="false"
+                android:src="@android:drawable/ic_dialog_info"
+                android:tint="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="322dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="Nombre"
+                android:textSize="18sp" />
+
+            <RatingBar
+                android:id="@+id/voteRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/nameTextView"
+                android:isIndicator="true"
+                android:numStars="5" />
+
+            <TextView
+                android:id="@+id/phoneTextView"
+                android:layout_width="238dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/voteRating"
+                android:text="Teléfono"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/mailTextView"
+                android:layout_width="322dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/phoneTextView"
+                android:text="eMail"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/quoteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/mailTextView"
+                android:singleLine="false"
+                android:text="Descripción"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/skillTextView"
+                android:layout_width="156dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/blankSpaceQuoteSkill"
+                android:text="@string/skills" />
+
+            <ListView
+                android:id="@+id/SkillsList"
+                android:layout_width="match_parent"
+                android:layout_height="102dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/skillTextView"
+                android:scrollbars="horizontal" />
+
+            <View
+                android:id="@+id/skillLineAbove"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/SkillsList"
+                android:background="@android:color/darker_gray"
+                android:visibility="visible"
+                android:layout_alignParentLeft="true" />
+
+            <View
+                android:id="@+id/skillLineBelow"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@+id/SkillsList"
+                android:background="@android:color/darker_gray" />
+
+            <View
+                android:id="@+id/blankSpaceQuoteSkill"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/quoteTextView"
+                android:background="@android:color/darker_gray"
+                android:visibility="invisible" />
+
+            <View
+                android:id="@+id/blankSpaceQuoteSkill2"
+                android:layout_width="wrap_content"
+                android:layout_height="93dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/SkillsList"
+                android:background="@android:color/darker_gray"
+                android:visibility="invisible"
+                android:layout_alignParentLeft="true" />
+
+        </RelativeLayout>
+    </ScrollView>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/quoteTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/mailTextView"
-            android:singleLine="false"
-            android:text="Cita"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/phoneTextView"
-            android:layout_width="238dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/nameTextView"
-            android:text="Teléfono"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/nameTextView"
-            android:layout_width="322dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="Nombre"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/mailTextView"
-            android:layout_width="322dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/phoneTextView"
-            android:text="eMail"
-            android:textSize="18sp" />
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="316dp"
-            android:layout_height="120dp"
-            android:layout_below="@+id/SkillsList"
-            android:layout_centerHorizontal="true" />
-
-        <ListView
-            android:id="@+id/SkillsList"
-            android:layout_width="match_parent"
-            android:layout_height="186dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/textView"
-            android:scrollbars="horizontal" />
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_below="@+id/SkillsList"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="156dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/blankSpaceQuoteSkill"
-            android:text="@string/skills"
-            android:layout_alignParentLeft="true" />
-
-        <View
-            android:id="@+id/blankSpaceQuoteSkill"
-            android:layout_width="wrap_content"
-            android:layout_height="29dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/quoteTextView"
-            android:background="@android:color/darker_gray"
-            android:visibility="invisible"
-            android:layout_alignParentLeft="true" />
-
-        <View
-            android:id="@+id/view3"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/SkillsList"
-            android:background="@android:color/darker_gray"
-            android:visibility="visible" />
-
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/mapView"
-            android:layout_centerHorizontal="true"
-            android:isIndicator="true"
-            android:numStars="5" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/voteFloatButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/callFloatbutton"
-            android:clickable="true"
-            android:src="@android:drawable/checkbox_on_background" />
+        android:layout_height="85dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/callFloatbutton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/voteFloatButton"
+            android:layout_marginStart="32dp"
             android:clickable="true"
-            android:src="@drawable/ic_call" />
+            android:src="@drawable/ic_call"
+            android:layout_marginLeft="32dp"
+            android:layout_alignParentLeft="true" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/voteFloatButton"
+            android:layout_width="50dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="44dp"
+            android:clickable="true"
+            android:src="@android:drawable/checkbox_on_background"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="44dp" />
     </RelativeLayout>
-</ScrollView>
+</RelativeLayout>

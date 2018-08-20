@@ -1,6 +1,7 @@
 package com.uca.jiniguez.itutor;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -18,6 +19,7 @@ import java.net.URL;
 import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserData {
     static String url = "http://10.23.99.82:5000";
@@ -142,6 +144,51 @@ public class UserData {
         }
 
     }
+
+    public List<VoteData> getVotes(){
+        final List<VoteData> votes = new ArrayList<>();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Simulate network access.
+                    //Thread.sleep(2000);
+                    String server_response = "";
+                    String url = UserData.url + "/vote/" + mID;
+                    URL urlEndPoint = new URL(url);
+                    HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
+
+                    InputStream in = urlConnection.getInputStream();
+                    InputStreamReader isw = new InputStreamReader(in);
+                    int data = isw.read();
+                    while (data != -1) {
+                        char current = (char) data;
+                        data = isw.read();
+                        server_response += current;
+                    }
+
+                    String json = server_response;
+                    JSONArray jsonarray = new JSONArray(json);
+                    for (int i = 0; i < jsonarray.length(); i++) {
+                        JSONObject jsonobject = jsonarray.getJSONObject(i);
+                        votes.add(VoteData.createVoteFromJson(jsonobject));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return votes;
+    }
+
+
     public void createUser(){
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -231,18 +278,30 @@ public class UserData {
     public void getDataFromJson(JSONObject datos) {
         try {
             mID = datos.getString("id");
+
             mName = datos.getString("name");
+            mName = mName.equals("null")?"":mName;
+
             mPhone = datos.getString("phoneNum");
+            mPhone = mPhone.equals("null")?"":mPhone;
+
             mEmail = datos.getString("email");
+
             mDescription = datos.getString("quote");
+            mDescription = mDescription.equals("null")?"":mDescription;
+
             mPassword = datos.getString("password");
-            mPosition = new LatLng(datos.getDouble("latitude"), datos.getDouble("longitude"));
+            try {
+                mPosition = new LatLng(datos.getDouble("latitude"), datos.getDouble("longitude"));
+            }
+            catch (Exception e){
+                mPosition = new LatLng(0,0);
+            }
             mTeachers.clear();
             JSONArray jsonTeachers = datos.getJSONArray("teachers");
-            for (int i = 0; i < jsonTeachers.length(); i++) {
-                JSONObject row = jsonTeachers.getJSONObject(i);
-                mTeachers.add(row.getString("id"));
-            }
+            for (int i = 0; i < jsonTeachers.length(); i++)
+                mTeachers.add(jsonTeachers.getString(i));
+
             mSkills.clear();
             JSONArray jsonSkills = datos.getJSONArray("skills");
             for (int i = 0; i < jsonSkills.length(); i++) {
@@ -258,30 +317,47 @@ public class UserData {
 
     public static UserData createUserFromJson(JSONObject datos) {
         UserData u = new UserData();
-        try {
-            u.mID = datos.getString("id");
-            u.mName = datos.getString("name");
-            u.mPhone = datos.getString("phoneNum");
-            u.mEmail = datos.getString("email");
-            u.mDescription = datos.getString("quote");
-            u.mPassword = datos.getString("password");
-            u.mPosition = new LatLng(datos.getDouble("latitude"), datos.getDouble("longitude"));
-            u.mTeachers.clear();
-            JSONArray jsonTeachers = datos.getJSONArray("teachers");
-            for (int i = 0; i < jsonTeachers.length(); i++) {
-                JSONObject row = jsonTeachers.getJSONObject(i);
-                u.mTeachers.add(row.getString("id"));
-            }
-            u.mSkills.clear();
-            JSONArray jsonSkills = datos.getJSONArray("skills");
-            for (int i = 0; i < jsonSkills.length(); i++) {
-                JSONObject row = jsonSkills.getJSONObject(i);
-                u.mSkills.add(row.getString("skillName"));
-            }
-            u.getRating();
-        }catch (JSONException e) {
-            e.printStackTrace();
-        }
+        u.getDataFromJson(datos);
         return u;
     }
+
+    public static UserData findUser(final String teacher) {
+        final UserData[] u = {new UserData()};
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String json;
+                    String server_response = "";
+                    String url = UserData.url + "/user/"+teacher;
+                    URL urlEndPoint = new URL(url);
+                    HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
+
+                    InputStream in = urlConnection.getInputStream();
+                    InputStreamReader isw = new InputStreamReader(in);
+                    int data = isw.read();
+                    while (data != -1) {
+                        char current = (char) data;
+                        data = isw.read();
+                        server_response += current;
+                    }
+
+                    json = server_response;
+                    JSONObject jsonobject = new JSONObject(json);
+                    u[0] = createUserFromJson(jsonobject);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return u[0];
+    }
+
+
 }

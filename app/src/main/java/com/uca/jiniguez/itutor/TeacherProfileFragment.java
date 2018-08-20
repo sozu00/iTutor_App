@@ -4,6 +4,7 @@ package com.uca.jiniguez.itutor;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,10 +24,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +41,7 @@ public class TeacherProfileFragment extends Fragment implements OnMapReadyCallba
     private TextView quoteTextView;
     private SkillListAdapter adapter;
     private RatingBar ratingBar;
+    private ImageButton votesInfo;
 
     public TeacherProfileFragment() {
     }
@@ -70,8 +68,9 @@ public class TeacherProfileFragment extends Fragment implements OnMapReadyCallba
         phoneTextView = v.findViewById(R.id.phoneTextView);
         mailTextView = v.findViewById(R.id.mailTextView);
         quoteTextView = v.findViewById(R.id.quoteTextView);
-        ratingBar = v.findViewById(R.id.ratingBar);
-        mMapView = v.findViewById(R.id.mapView);
+        ratingBar = v.findViewById(R.id.voteRating);
+        votesInfo = v.findViewById(R.id.votesInfoTeacher);
+        //mMapView = v.findViewById(R.id.mapView);
         if(mMapView!=null) {
             mMapView.onCreate(null);
             mMapView.onResume();
@@ -86,6 +85,18 @@ public class TeacherProfileFragment extends Fragment implements OnMapReadyCallba
         listView.setAdapter(adapter);
         loadAllData();
 
+        votesInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                VotesFragment votesFragment = new VotesFragment();
+                votesFragment.setUserData(userData);
+
+                fragmentTransaction.replace(R.id.main_frame, votesFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
         listView.setOnTouchListener(new View.OnTouchListener() {
             // Setting on Touch Listener for handling the touch inside ScrollView
             @Override

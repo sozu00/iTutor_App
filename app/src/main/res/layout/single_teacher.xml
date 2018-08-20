@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/teacherName"
+        android:id="@+id/voterName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -20,14 +20,14 @@
         android:id="@+id/teacherPhone"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_alignStart="@+id/teacherName"
-        android:layout_below="@+id/teacherName"
+        android:layout_alignStart="@+id/voterName"
+        android:layout_below="@+id/voterName"
         android:layout_gravity="center_vertical"
         android:gravity="center"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="18sp"
         android:textStyle="italic"
-        android:layout_alignLeft="@+id/teacherName" />
+        android:layout_alignLeft="@+id/voterName" />
 
     <TextView
         android:id="@+id/teacherQuote"
@@ -54,7 +54,7 @@
         android:id="@+id/phoneButton"
         android:layout_width="18sp"
         android:layout_height="32sp"
-        android:layout_below="@+id/teacherName"
+        android:layout_below="@+id/voterName"
         android:layout_toEndOf="@+id/teacherPhone"
         android:layout_marginStart="8dp"
         android:background="@android:color/transparent"

@@ -37,7 +37,7 @@ public class SearchFragment extends Fragment {
         String[] from = { "name","phone", "mDescription", "icon"};
 
         // Ids of views in listview_layout
-        int[] to = { R.id.teacherName, R.id.teacherPhone, R.id.teacherQuote, R.id.phoneButton};
+        int[] to = { R.id.voterName, R.id.teacherPhone, R.id.teacherQuote, R.id.phoneButton};
 
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item

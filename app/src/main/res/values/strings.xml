@@ -101,7 +101,7 @@
     <string name="acc_name">Name</string>
     <string name="acc_phone">Telefono</string>
     <string name="acc_quote">Cita</string>
-    <string name="hint_quote">Inserta aqui una cita</string>
+    <string name="hint_quote">Inserta aqui una descripcion</string>
     <string name="hint_phone">Inserta aqui tu telefono</string>
     <string name="hint_name">Inserta aqui tu nombre</string>
     <string name="delete">Eliminar</string>
@@ -109,6 +109,10 @@
     <string name="saveChanges">Guardar Cambios</string>
     <string name="call">Llamar</string>
     <string name="filter_skill">Materia</string>
-    <string name="max_distance">Distancia</string>
+    <string name="max_distance">Distancia máxima</string>
     <string name="action_sign_new">Registrar</string>
+    <string name="add_skill_img">Add_Skill_IMG</string>
+    <string name="rating_minimo">Rating mínimo</string>
+    <string name="limpiar_filtros">Limpiar Filtros</string>
+    <string name="aplicar_filtros">Aplicar Filtros</string>
 </resources>

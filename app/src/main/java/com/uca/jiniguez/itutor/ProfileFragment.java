@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,6 +51,7 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
     private TextView mailTextView;
     private EditText quoteTextView;
     private RatingBar ratingBar;
+    private ImageButton votesInfo;
 
     public ProfileFragment() {}
 
@@ -59,15 +62,16 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
         super.onCreateView(inflater, container, savedInstanceState);
         v = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        addSkill = v.findViewById(R.id.addSkillBtn);
-        mMapView = v.findViewById(R.id.mapView);
+        addSkill = v.findViewById(R.id.addSkillbtn);
+        //mMapView = v.findViewById(R.id.mapView);
         saveData = v.findViewById(R.id.saveDataButton);
         listView = v.findViewById(R.id.SkillsList);
         nameTextView = v.findViewById(R.id.nameEditText);
         phoneTextView = v.findViewById(R.id.phoneEditText);
         mailTextView = v.findViewById(R.id.mailEditText);
         quoteTextView = v.findViewById(R.id.QuoteEditText);
-        ratingBar = v.findViewById(R.id.ratingBar);
+        ratingBar = v.findViewById(R.id.voteRating);
+        votesInfo = v.findViewById(R.id.votesInfo);
 
         if(mMapView!=null) {
             mMapView.onCreate(null);
@@ -95,7 +99,18 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
         });
         loadAllData();
 
+        votesInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                VotesFragment votesFragment = new VotesFragment();
+                votesFragment.setUserData(userData);
 
+                fragmentTransaction.replace(R.id.main_frame, votesFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
         listView.setOnTouchListener(new View.OnTouchListener() {
             // Setting on Touch Listener for handling the touch inside ScrollView
             @Override
@@ -117,6 +132,7 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
         userData.mSkills = adapter.getSkills();
         userData.uploadData();
         ((MainActivity) v.getContext()).userData = userData;
+        Toast.makeText(v.getContext(), "Guardado realizado con éxito", Toast.LENGTH_SHORT).show();
     }
 
     private void loadAllData(){
@@ -163,7 +179,6 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
 
         builder.show();
     }
-
 
 
     @Override

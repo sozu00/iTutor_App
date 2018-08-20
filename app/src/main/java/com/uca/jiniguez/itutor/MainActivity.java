@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mMainFrame;
 
     private ProfileFragment profileFragment;
-    private SearchFragment searchFragment;
+    SearchFragment searchFragment;
     private FavTeachersFragment favTeachersFragment;
 
     public UserData userData = new UserData();
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         searchFragment = new SearchFragment();
         favTeachersFragment = new FavTeachersFragment();
 
+        profileFragment.setUserData(userData);
         searchFragment.setUserData(allUsers);
         setFragment(searchFragment);
 

@@ -31,6 +31,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -114,12 +115,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    private void openS3(){
-        Intent intent = new Intent(getBaseContext(), S3Activity.class);
-        startActivity(intent);
-        finish();
-    }
-
     private void attemptRegister() {
         // Reset errors.
         mEmailView.setError(null);
@@ -152,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // form field with an error.
             focusView.requestFocus();
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle("Confirma la creacion del usuario");
             builder.setMessage("Email: " + email + "\nPassword: " + password + "\n\nAnota estos datos, no volverán a aparecer.");
@@ -164,6 +159,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             ud.mPassword = password;
                             ud.mEmail = email;
                             ud.createUser();
+                            userCreated();
                         }
                     });
             builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -175,6 +171,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             AlertDialog dialog = builder.create();
             dialog.show();
         }
+    }
+
+    private void userCreated(){
+        Toast.makeText(this, "Usuario creado con éxito.",Toast.LENGTH_SHORT).show();
     }
 
     private void populateAutoComplete() {
