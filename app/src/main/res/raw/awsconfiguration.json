@@ -1,0 +1,38 @@
+{
+  "UserAgent": "MobileHub/1.0",
+  "Version": "1.0",
+  "CredentialsProvider": {
+    "CognitoIdentity": {
+      "Default": {
+        "PoolId": "eu-west-1:f5adab5a-16c3-4d5e-b80c-c18ea4bf89d4",
+        "Region": "eu-west-1"
+      }
+    }
+  },
+  "IdentityManager": {
+    "Default": {}
+  },
+  "S3TransferUtility": {
+    "Default": {
+      "Bucket": "itutor-userfiles-mobilehub-1682953522",
+      "Region": "eu-west-1"
+    }
+  },
+  "PinpointAnalytics": {
+    "Default": {
+      "AppId": "7e43e78b368047a993c5264dc357c967",
+      "Region": "us-east-1"
+    }
+  },
+  "PinpointTargeting": {
+    "Default": {
+      "Region": "us-east-1"
+    }
+  },
+  "UserFileManager": {
+    "Default": {
+      "Bucket": "itutor-userfiles-mobilehub-1682953522",
+      "Region": "eu-west-1"
+    }
+  }
+}

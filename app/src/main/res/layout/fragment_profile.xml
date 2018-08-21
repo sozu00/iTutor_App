@@ -30,8 +30,10 @@
 
         <RatingBar
             android:id="@+id/voteRating"
+            style="@style/?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/nameEditText"
             android:isIndicator="true"
@@ -44,7 +46,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/skillTextView"
             android:entries="@array/pref_example_list_titles"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:layout_alignParentLeft="true" />
 
         <TextView
             android:id="@+id/mailEditText"
@@ -54,7 +57,8 @@
             android:layout_below="@+id/voteRating"
             android:ems="10"
             android:text="@string/acc_email"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_alignParentLeft="true" />
 
         <EditText
             android:id="@+id/phoneEditText"
@@ -91,15 +95,15 @@
 
         <EditText
             android:id="@+id/nameEditText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:ems="10"
             android:hint="@string/hint_name"
             android:inputType="textPersonName"
-            android:text="@string/acc_name" />
+            android:text="@string/acc_name"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/saveDataButton"
@@ -137,6 +141,14 @@
             android:cropToPadding="false"
             android:src="@android:drawable/ic_dialog_info"
             android:tint="@color/colorPrimaryDark" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="117dp"
+            android:layout_height="104dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@android:drawable/alert_dark_frame" />
 
     </RelativeLayout>
 </ScrollView>
