@@ -5,13 +5,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +34,13 @@ public class TeacherListAdapter extends SimpleAdapter {
     public View getView(final int position, final View convertView, ViewGroup parent) {
         final View v = super.getView(position, convertView, parent);
         ImageButton callTeacher = v.findViewById(R.id.phoneButton);
+        RatingBar rBar = v.findViewById(R.id.voteRating);
+        ImageView profilePic = v.findViewById(R.id.profilePicView);
+
+        rBar.setRating((float)elements.get(position).get("mRating"));
         callTeacher.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v2) {
-                String phn = (String) elements.get(position).get("phone");
+                String phn = (String) elements.get(position).get("mPhone");
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
                 callIntent.setData(Uri.parse("tel:"+phn));
                 // No explanation needed; request the permission
@@ -51,6 +60,12 @@ public class TeacherListAdapter extends SimpleAdapter {
                 myActivity.setFragment(profileFragment);
             }
         });
+        Utilities.downloadWithTransferUtility(v,"public/example-image.png");
+        File imgFile = new File(v.getContext().getFilesDir().getAbsolutePath()+"/photo.png");
+        if(imgFile.exists()){
+            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            profilePic.setImageBitmap(myBitmap);
+        }
 
         return v;
     }

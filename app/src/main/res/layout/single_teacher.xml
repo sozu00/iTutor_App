@@ -1,66 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="6dp">
 
-    <TextView
-        android:id="@+id/voterName"
-        android:layout_width="match_parent"
+    <RatingBar
+        android:id="@+id/voteRating"
+        style="?attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp" />
-
-    <TextView
-        android:id="@+id/teacherPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_alignStart="@+id/voterName"
-        android:layout_below="@+id/voterName"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="18sp"
-        android:textStyle="italic"
-        android:layout_alignLeft="@+id/voterName" />
-
-    <TextView
-        android:id="@+id/teacherQuote"
-        android:layout_width="298dp"
-        android:layout_height="58dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/teacherPhone"
-        android:layout_marginStart="16dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="16dp" />
+        android:layout_below="@+id/profilePicView"
+        android:isIndicator="true"
+        android:numStars="5" />
 
     <ImageButton
         android:id="@+id/moreInfoButton"
-        android:layout_width="71dp"
-        android:layout_height="108dp"
-        android:layout_alignParentEnd="true"
+        android:layout_width="88dp"
+        android:layout_height="109dp"
         android:layout_alignParentTop="true"
-        android:background="@android:color/transparent"
-        android:tint="@android:color/background_dark"
-        app:srcCompat="@android:drawable/ic_menu_info_details"
-        android:layout_alignParentRight="true" />
+        android:layout_toEndOf="@+id/teacherQuote"
+        android:background="@color/colorWhiteTransparent"
+        android:cropToPadding="false"
+        android:src="@android:drawable/ic_dialog_info"
+        android:tint="@color/colorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/voterName"
+        android:layout_width="174dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/profilePicView"
+        android:text="Nombre" />
+
+    <TextView
+        android:id="@+id/teacherPhone"
+        android:layout_width="125dp"
+        android:layout_height="32dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/voterName"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="114dp"
+        android:gravity="center"
+        android:text="telefono"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        android:textStyle="italic"
+        tools:ignore="RtlCompat" />
+
+    <TextView
+        android:id="@+id/teacherQuote"
+        android:layout_width="216dp"
+        android:layout_height="58dp"
+        android:layout_below="@+id/teacherPhone"
+        android:layout_toEndOf="@+id/voteRating"
+        android:text="Descripcion"
+        android:textSize="10sp" />
 
     <ImageButton
         android:id="@+id/phoneButton"
         android:layout_width="18sp"
-        android:layout_height="32sp"
+        android:layout_height="32dp"
+        android:layout_alignStart="@+id/voterName"
         android:layout_below="@+id/voterName"
-        android:layout_toEndOf="@+id/teacherPhone"
-        android:layout_marginStart="8dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_call"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/teacherPhone" />
+        app:srcCompat="@drawable/ic_call" />
+
+    <ImageView
+        android:id="@+id/profilePicView"
+        android:layout_width="79dp"
+        android:layout_height="93dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:drawable/picture_frame"
+        app:srcCompat="@android:drawable/alert_dark_frame" />
 
 </RelativeLayout>

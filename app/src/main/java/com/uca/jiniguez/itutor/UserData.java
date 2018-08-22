@@ -23,6 +23,7 @@ import java.util.Optional;
 
 public class UserData {
     static String url = "http://10.23.99.82:5000";
+    static String noFileFound = "";
     String mID;
     String mName;
     String mPhone;
@@ -33,6 +34,9 @@ public class UserData {
     LatLng mPosition;
     List<String> mTeachers;
     float mRating;
+    String profilePic = noFileFound;
+    Integer formacion = 2;
+    float price = 0;
     private String jsonObject = "";
 
     public UserData(){

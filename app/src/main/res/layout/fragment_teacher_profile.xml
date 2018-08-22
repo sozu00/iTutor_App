@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="29dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/mailEditText" />
+            android:layout_below="@+id/mailTextView" />
 
         <RatingBar
             android:id="@+id/voteRating"
@@ -48,35 +48,30 @@
             android:scrollbars="vertical" />
 
         <TextView
-            android:id="@+id/mailEditText"
+            android:id="@+id/mailTextView"
             android:layout_width="wrap_content"
             android:layout_height="19dp"
             android:layout_below="@+id/view2"
             android:layout_toEndOf="@+id/levelTextView"
             android:ems="10"
-            android:text="@string/acc_email"
             android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/phoneEditText"
+        <TextView
+            android:id="@+id/phoneTextView"
             android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/mailEditText"
+            android:layout_height="19dp"
+            android:layout_alignStart="@+id/mailTextView"
             android:layout_alignTop="@+id/phoneImgView"
             android:ems="10"
-            android:hint="@string/hint_phone"
-            android:inputType="phone"
-            android:text="@string/acc_phone"
             android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/QuoteEditText"
+        <TextView
+            android:id="@+id/quoteTextView"
             android:layout_width="196dp"
             android:layout_height="70dp"
-            android:layout_alignStart="@+id/nameEditText"
-            android:layout_below="@+id/nameEditText"
+            android:layout_alignStart="@+id/nameTextView"
+            android:layout_below="@+id/voteRating"
             android:ems="10"
-            android:hint="@string/hint_quote"
             android:inputType="textMultiLine"
             android:text="@string/acc_quote"
             android:textSize="10sp" />
@@ -90,25 +85,16 @@
             android:layout_below="@+id/blankSpaceQuoteSkill"
             android:text="@string/skills" />
 
-        <EditText
-            android:id="@+id/nameEditText"
+        <TextView
+            android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/voteRating"
             android:layout_toEndOf="@+id/profilePicView"
             android:ems="10"
-            android:hint="@string/hint_name"
             android:inputType="textPersonName"
             android:text="@string/acc_name"
             android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/saveDataButton"
-            android:layout_width="167dp"
-            android:layout_height="38dp"
-            android:layout_below="@+id/SkillsList"
-            android:layout_centerHorizontal="true"
-            android:text="@string/saveChanges" />
 
         <View
             android:id="@+id/blankSpaceQuoteSkill"
@@ -119,21 +105,11 @@
             android:background="@android:color/transparent" />
 
         <ImageButton
-            android:id="@+id/addSkillbtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_above="@+id/SkillsList"
-            android:layout_alignParentEnd="true"
-            android:background="@android:color/transparent"
-            android:contentDescription="Add Skill"
-            android:src="@android:drawable/ic_input_add" />
-
-        <ImageButton
             android:id="@+id/votesInfo"
             android:layout_width="44dp"
             android:layout_height="70dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/QuoteEditText"
+            android:layout_alignTop="@+id/quoteTextView"
             android:background="@color/colorWhiteTransparent"
             android:cropToPadding="false"
             android:src="@android:drawable/ic_dialog_info"
@@ -159,9 +135,9 @@
             android:text="Precio:"
             tools:text="Precio: " />
 
-        <EditText
-            android:id="@+id/priceEditText"
-            android:layout_width="28dp"
+        <TextView
+            android:id="@+id/price2TextView"
+            android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/priceTextView"
             android:layout_toEndOf="@+id/priceTextView"
@@ -175,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="14dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/QuoteEditText" />
+            android:layout_below="@+id/profilePicView" />
 
         <View
             android:id="@+id/view2"
@@ -199,6 +175,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view5"
             android:checked="false"
+            android:clickable="false"
             android:text="Basico" />
 
         <CheckBox
@@ -208,6 +185,7 @@
             android:layout_alignStart="@+id/basicCheck"
             android:layout_below="@+id/basicCheck"
             android:checked="false"
+            android:clickable="false"
             android:text="Medio" />
 
         <CheckBox
@@ -217,6 +195,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/midCheck"
             android:checked="false"
+            android:clickable="false"
             android:text="Avanzado" />
 
         <CheckBox
@@ -226,6 +205,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/advancedCheck"
             android:checked="false"
+            android:clickable="false"
             android:text="Profesional" />
 
         <TextView
@@ -236,27 +216,27 @@
             android:layout_alignTop="@+id/levelTextView"
             android:text="Formacion" />
 
-        <Spinner
+        <TextView
             android:id="@+id/spinner"
             android:layout_width="191dp"
             android:layout_height="18dp"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/basicCheck"
-            android:entries="@array/list_academy" />
+            android:text="Primaria" />
 
         <View
             android:id="@+id/view3"
             android:layout_width="wrap_content"
             android:layout_height="19dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/phoneEditText" />
+            android:layout_below="@+id/phoneTextView" />
 
         <TextView
             android:id="@+id/price3TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/priceTextView"
-            android:layout_toEndOf="@+id/priceEditText"
+            android:layout_toEndOf="@+id/price2TextView"
             android:text="euros por hora" />
 
         <ImageView
@@ -264,13 +244,13 @@
             android:layout_width="19dp"
             android:layout_height="19dp"
             android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/mailEditText"
+            android:layout_alignTop="@+id/mailTextView"
             android:src="@drawable/ic_menu_send" />
 
         <ImageView
             android:id="@+id/phoneImgView"
             android:layout_width="19dp"
-            android:layout_height="41dp"
+            android:layout_height="19dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view4"
             android:src="@android:drawable/sym_action_call" />

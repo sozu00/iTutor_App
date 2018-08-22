@@ -9,11 +9,12 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:adjustViewBounds="false"
+        android:background="@android:color/transparent"
         android:contentDescription="@string/delete"
-        android:src="@android:drawable/ic_delete"
-        android:layout_alignParentRight="true" />
+        android:src="@android:drawable/ic_delete" />
 
     <TextView
         android:id="@+id/txtList"

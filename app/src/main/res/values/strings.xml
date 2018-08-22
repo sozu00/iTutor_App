@@ -98,9 +98,9 @@
     <string name="nav_search">Buscar</string>
     <string name="acc_email">E-mail</string>
     <string name="hint_email">Inserta aqui tu email</string>
-    <string name="acc_name">Name</string>
+    <string name="acc_name">Nombre</string>
     <string name="acc_phone">Telefono</string>
-    <string name="acc_quote">Cita</string>
+    <string name="acc_quote">Descripcion</string>
     <string name="hint_quote">Inserta aqui una descripcion</string>
     <string name="hint_phone">Inserta aqui tu telefono</string>
     <string name="hint_name">Inserta aqui tu nombre</string>

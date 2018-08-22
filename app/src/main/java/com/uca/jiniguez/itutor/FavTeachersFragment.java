@@ -34,10 +34,10 @@ public class FavTeachersFragment extends Fragment {
         final View v =  inflater.inflate(R.layout.fragment_fav_teacher, container, false);
 
         // Keys used in Hashmap
-        String[] from = { "name","phone", "mDescription", "icon"};
+        String[] from = { "mName","mPhone", "mDescription", "icon", "mRating", "mImage"};
 
         // Ids of views in listview_layout
-        int[] to = { R.id.voterName, R.id.teacherPhone, R.id.teacherQuote, R.id.phoneButton};
+        int[] to = { R.id.voterName, R.id.teacherPhone, R.id.teacherQuote, R.id.phoneButton, R.id.voteRating, R.id.profilePicView};
 
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item
@@ -50,6 +50,7 @@ public class FavTeachersFragment extends Fragment {
                 new String[]{Manifest.permission.CALL_PHONE},
                 0);
         // Setting the adapter to the listView
+        adapter.setViewBinder(new MyBinder());
         listView.setAdapter(adapter);
 
 
@@ -66,7 +67,9 @@ public class FavTeachersFragment extends Fragment {
             hm.put("name", user.mName);
             hm.put("phone", user.mPhone);
             hm.put("mDescription", user.mDescription);
-            hm.put("icon", Integer.toString(R.drawable.ic_call ));
+            hm.put("mRating", user.mRating);
+            hm.put("mImage", user.profilePic);
+            hm.put("icon", Integer.toString(R.drawable.ic_call));
             hm.put("data", user);
             teachers.add(hm);
         }
