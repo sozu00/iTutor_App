@@ -8,6 +8,7 @@
     tools:context=".ProfileFragment">
 
     <RelativeLayout
+        android:id="@+id/teacherLayout"
         android:layout_width="wrap_content"
         android:layout_height="600dp"
         android:orientation="vertical">
@@ -85,7 +86,6 @@
             android:id="@+id/skillTextView"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/blankSpaceQuoteSkill"
             android:text="@string/skills" />
@@ -257,7 +257,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/priceTextView"
             android:layout_toEndOf="@+id/priceEditText"
-            android:text="euros por hora" />
+            android:text="€/h" />
 
         <ImageView
             android:id="@+id/mailImgView"

@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     SearchFragment searchFragment;
     private FavTeachersFragment favTeachersFragment;
 
-    public UserData userData = new UserData();
+    public static UserData userData = new UserData();
     public List<UserData> allUsers = new ArrayList<>();
     JSONObject datos;
     @Override
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         userData.getDataFromJson(datos);
         //userData.downloadData();
-        allUsers = UserData.getUsers("",0,null,0);
+        allUsers = UserData.getUsers("",null,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
         mMainFrame = findViewById(R.id.main_frame);
         mMainNav = findViewById(R.id.main_nav);
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         favTeachersFragment = new FavTeachersFragment();
 
         profileFragment.setUserData(userData);
-        searchFragment.setUserData(allUsers);
+        searchFragment.setUserData(allUsers, findViewById(android.R.id.content));
         setFragment(searchFragment);
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -58,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_search:
-                        allUsers = UserData.getUsers("",0,null,0);
-                        searchFragment.setUserData(allUsers);
+                        allUsers = UserData.getUsers("",null,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
+                        searchFragment.setUserData(allUsers, findViewById(android.R.id.content));
                         setFragment(searchFragment);
                         return true;
                     case R.id.nav_profile:
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(profileFragment);
                         return true;
                     case R.id.nav_teachers:
-                        favTeachersFragment.setUserData(userData);
+                        favTeachersFragment.setUserData(userData, findViewById(android.R.id.content));
                         setFragment(favTeachersFragment);
                         return true;
                     default:
@@ -81,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
             public void onNavigationItemReselected(@NonNull MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.nav_search:
-                            allUsers = UserData.getUsers("",0,null,0);
-                            searchFragment.setUserData(allUsers);
+                            allUsers = UserData.getUsers("",null,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
+                            searchFragment.setUserData(allUsers, findViewById(android.R.id.content));
                             setFragment(searchFragment);
                             break;
                         case R.id.nav_profile:
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                             setFragment(profileFragment);
                             break;
                         case R.id.nav_teachers:
+                            favTeachersFragment.setUserData(userData, findViewById(android.R.id.content));
                             setFragment(favTeachersFragment);
                             break;
                         default:

@@ -3,12 +3,14 @@ package com.uca.jiniguez.itutor;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,34 +20,29 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TeacherProfileFragment extends Fragment implements OnMapReadyCallback {
+public class TeacherProfileFragment extends Fragment {
 
     View v;
     private ImageButton delete;
-    private GoogleMap mGoogleMap;
-    private MapView mMapView;
     private UserData userData;
     private TextView nameTextView;
     private TextView phoneTextView;
@@ -57,6 +54,15 @@ public class TeacherProfileFragment extends Fragment implements OnMapReadyCallba
     private ImageView photo;
     private ImageView call;
     private ImageView mail;
+    private TextView formation;
+    private TextView price;
+    private List<CheckBox> levels;
+    private Button voteButton;
+    private PopupWindow mPopupWindow;
+    private ImageView isFavourite;
+    private ListView skillsList;
+    private Boolean isFavouriteB = false;
+
 
     public TeacherProfileFragment() {
     }
@@ -70,6 +76,16 @@ public class TeacherProfileFragment extends Fragment implements OnMapReadyCallba
         mailTextView.setText(userData.mEmail);
         quoteTextView.setText(userData.mDescription);
         ratingBar.setRating(userData.mRating);
+        String form[] = getResources().getStringArray(R.array.list_academy);
+        formation.setText(form[userData.formacion]);
+        price.setText(Float.valueOf(userData.price).toString());
+        for (int i = 0; i < userData.levels.size(); i++)
+            levels.get(i).setChecked(userData.levels.get(i));
+        for(String mTeacherID : MainActivity.userData.mTeachers)
+            if(mTeacherID.equals(userData.mID))
+                isFavouriteB = true;
+        isFavourite.setImageResource(isFavouriteB?R.drawable.big_star_btn_on:R.drawable.big_star_btn_off);
+        isFavourite.invalidate();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -85,36 +101,64 @@ public class TeacherProfileFragment extends Fragment implements OnMapReadyCallba
         quoteTextView = v.findViewById(R.id.quoteTextView);
         ratingBar = v.findViewById(R.id.voteRating);
         votesInfo = v.findViewById(R.id.votesInfo);
-        //mMapView = v.findViewById(R.id.mapView);
         photo = v.findViewById(R.id.profilePicView);
         call = v.findViewById(R.id.phoneImgView);
         mail = v.findViewById(R.id.mailImgView);
+        formation = v.findViewById(R.id.academyTextView);
+        price = v.findViewById(R.id.price2TextView);
+        levels = new ArrayList<>();
+        levels.add((CheckBox) v.findViewById(R.id.basicCheck));
+        levels.add((CheckBox) v.findViewById(R.id.midCheck));
+        levels.add((CheckBox) v.findViewById(R.id.advancedCheck));
+        levels.add((CheckBox) v.findViewById(R.id.profesionalCheck));
+        voteButton = v.findViewById(R.id.voteButton);
+        isFavourite = v.findViewById(R.id.isFavouriteView);
+        skillsList = v.findViewById(R.id.SkillsList);
 
-        if(mMapView!=null) {
-            mMapView.onCreate(null);
-            mMapView.onResume();
-            mMapView.getMapAsync(this);
-        }
-        Utilities.downloadWithTransferUtility(v, "public/example-image.png");
-        File imgFile = new File(v.getContext().getFilesDir().getAbsolutePath()+"/photo.png");
-        if(imgFile.exists()){
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            photo.setImageBitmap(myBitmap);
-        }
+        final File imgFile = new File(v.getContext().getCacheDir().getAbsolutePath()+"/"+userData.mID+".png");
+        handleImageChanges(imgFile);
 
-        final ListView listView = v.findViewById(R.id.SkillsList);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(v.getContext(), android.R.layout.simple_list_item_1);
         adapter.addAll(userData.mSkills);
-        // Setting the adapter to the listView
-        listView.setAdapter(adapter);
+        skillsList.setAdapter(adapter);
+
         loadAllData();
 
-        setListeners(listView);
+        setListeners();
 
         return v;
     }
 
-    private void setListeners(ListView listView) {
+    private void handleImageChanges(final File imgFile) {
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int tries=0;
+                do{
+                    try {
+                        if(imgFile.exists()) {
+                            final Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                            handler.post(new Runnable(){
+                                public void run() {
+                                    photo.setImageBitmap(myBitmap);
+                                    v.invalidate();
+                                }
+                            });
+
+                            tries = 1000;
+                        }
+                        Thread.sleep(300);
+                        tries++;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }while(tries <1000);
+            }
+        }).start();
+    }
+
+    private void setListeners() {
         votesInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,7 +171,7 @@ public class TeacherProfileFragment extends Fragment implements OnMapReadyCallba
                 fragmentTransaction.commit();
             }
         });
-        listView.setOnTouchListener(new View.OnTouchListener() {
+        skillsList.setOnTouchListener(new View.OnTouchListener() {
             // Setting on Touch Listener for handling the touch inside ScrollView
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -171,19 +215,62 @@ public class TeacherProfileFragment extends Fragment implements OnMapReadyCallba
                 }
             }
         });
-    }
+
+        voteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Boolean hasBeenVotedByYou = false;
+                    for (VoteData v : userData.getVotes()){
+                        if(v.voterID.equals(MainActivity.userData.mID))
+                            hasBeenVotedByYou = true;
+                    }
+                    if(hasBeenVotedByYou)
+                        Toast.makeText(v.getContext(), "Ya has votado a este usuario", Toast.LENGTH_SHORT).show();
+                    else {
+                        final RatingBar voteBar;
+                        final EditText voteComment;
+                        final Dialog voteDialog = new Dialog(v.getContext());
+                        voteDialog.setContentView(R.layout.popup_vote);
+                        voteDialog.setCancelable(true);
+                        voteBar = voteDialog.findViewById(R.id.voteBar);
+                        voteComment = voteDialog.findViewById(R.id.voteComment);
+                        voteBar.setRating(0);
+
+                        Button updateButton = voteDialog.findViewById(R.id.confirmVoteButton);
+                        updateButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                VoteData vote = new VoteData();
+                                vote.voterID = MainActivity.userData.mID;
+                                vote.rating = voteBar.getProgress();
+                                vote.comment = voteComment.getText().toString();
+                                vote.receivingUser = userData.mID;
+                                vote.voterName = MainActivity.userData.mName;
+                                vote.voteUser();
+                                Toast.makeText(v.getContext(), "Tu voto ha sido registrado", Toast.LENGTH_SHORT).show();
+                                voteDialog.dismiss();
+                                v.invalidate();
+                            }
+                        });
+                        //now that the dialog is set up, it's time to show it
+                        voteDialog.show();
+                    }
+                }
+            });
 
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(getContext());
-
-        mGoogleMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(0,0)));
-
-        CameraPosition Position = CameraPosition.builder().target(new LatLng(0,0)).zoom(16).bearing(0).tilt(45).build();
-
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Position));
+        isFavourite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    isFavouriteB = !isFavouriteB;
+                    isFavourite.setImageResource(isFavouriteB?R.drawable.big_star_btn_on:R.drawable.big_star_btn_off);
+                    if(isFavouriteB)
+                        MainActivity.userData.mTeachers.add(userData.mID);
+                    else
+                        MainActivity.userData.mTeachers.remove(userData.mID);
+                    isFavourite.invalidate();
+                    MainActivity.userData.uploadData();
+                }
+        });
     }
 }

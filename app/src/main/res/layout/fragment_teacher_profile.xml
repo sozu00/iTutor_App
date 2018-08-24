@@ -9,8 +9,15 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="600dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="wrap_content"
+            android:layout_height="77dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/SkillsList" />
 
         <View
             android:id="@+id/view5"
@@ -254,6 +261,24 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view4"
             android:src="@android:drawable/sym_action_call" />
+
+        <Button
+            android:id="@+id/voteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/SkillsList"
+            android:layout_marginStart="130dp"
+            android:text="Valorame" />
+
+        <ImageView
+            android:id="@+id/isFavouriteView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/mailTextView"
+            android:layout_toEndOf="@+id/quoteTextView"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/btn_star_big_off" />
 
     </RelativeLayout>
 </ScrollView>

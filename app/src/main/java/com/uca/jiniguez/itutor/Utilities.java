@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
@@ -30,7 +31,8 @@ import java.net.URISyntaxException;
 
 public class Utilities {
 
-    public static String getPath(Uri uri, View v) throws URISyntaxException {
+    public static int UPDATE_IMAGE = 111;
+    public static String getPath(Uri uri, View v) {
         final boolean needToCheckUri = Build.VERSION.SDK_INT >= 19;
         String selection = null;
         String[] selectionArgs = null;
@@ -50,12 +52,13 @@ public class Utilities {
             Cursor cursor = null;
             try {
                 cursor = v.getContext().getContentResolver()
-                        .query(uri, projection, selection, selectionArgs, null);
+                        .query(uri, projection, null, null, null);
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
                 if (cursor.moveToFirst()) {
                     return cursor.getString(column_index);
                 }
-            } catch (Exception e) {
+            }finally {
+                cursor.close();
             }
         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
@@ -94,25 +97,21 @@ public class Utilities {
         }
     }
 
-    public static void showDialog(final String msg, final Context context,
-                           final String permission) {
+    private static void showDialog(final String msg, final Context context,
+                                   final String permission) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
         alertBuilder.setCancelable(true);
         alertBuilder.setTitle("Permission necessary");
         alertBuilder.setMessage(msg + " permission is necessary");
         alertBuilder.setPositiveButton(android.R.string.yes,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions((Activity) context,
-                                new String[] { permission },
-                                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-                    }
-                });
+                (dialog, which) -> ActivityCompat.requestPermissions((Activity) context,
+                        new String[] { permission },
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE));
         AlertDialog alert = alertBuilder.create();
         alert.show();
     }
 
-    public static void downloadWithTransferUtility(View v, String fileName) {
+    public static void downloadWithTransferUtility(final View v, final UserData u) {
 
         TransferUtility transferUtility =
                 TransferUtility.builder()
@@ -123,8 +122,8 @@ public class Utilities {
 
         TransferObserver downloadObserver =
                 transferUtility.download(
-                        "public/example-image.png",
-                        new File(v.getContext().getFilesDir().getAbsolutePath()+"/photo2.png"));
+                        "public/"+u.mID+".png",
+                        new File(v.getContext().getCacheDir().getAbsolutePath()+"/"+u.mID+".png"));
 
         // Attach a listener to the observer to get state update and progress notifications
         downloadObserver.setTransferListener(new TransferListener() {
@@ -140,8 +139,7 @@ public class Utilities {
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 float percentDonef = ((float)bytesCurrent/(float)bytesTotal) * 100;
                 int percentDone = (int)percentDonef;
-
-                //Log.d(LOG_TAG, "   ID:" + id + "   bytesCurrent: " + bytesCurrent + "   bytesTotal: " + bytesTotal + " " + percentDone + "%");
+                Log.d("MainActivity", "   ID:" + u.mID + "   bytesCurrent: " + bytesCurrent + "   bytesTotal: " + bytesTotal + " " + percentDone + "%");
             }
 
             @Override
@@ -157,12 +155,12 @@ public class Utilities {
             // Handle a completed upload.
         }
 
-        //Log.d(LOG_TAG, "Bytes Transferrred: " + downloadObserver.getBytesTransferred());
-        //Log.d(LOG_TAG, "Bytes Total: " + downloadObserver.getBytesTotal());
+        Log.d("MainActivity", "Bytes Transferrred: " + downloadObserver.getBytesTransferred());
+        Log.d("MainActivity", "Bytes Total: " + downloadObserver.getBytesTotal());
     }
 
 
-    public static void uploadWithTransferUtility(String filetoUpload, View v) {
+    public static void uploadWithTransferUtility(View v, UserData u) {
 
         TransferUtility transferUtility =
                 TransferUtility.builder()
@@ -173,7 +171,8 @@ public class Utilities {
 
         TransferObserver uploadObserver =
                 transferUtility.upload(
-                        "public/example-image2.png", new File(filetoUpload));
+                        "public/"+u.mID+".png",
+                        new File(u.newProfilePic));
 
         // Attach a listener to the observer to get state update and progress notifications
         uploadObserver.setTransferListener(new TransferListener() {

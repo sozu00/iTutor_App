@@ -1,6 +1,7 @@
 package com.uca.jiniguez.itutor;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 public class TeacherListAdapter extends SimpleAdapter {
-    List<HashMap<String, Object>>elements;
-    MainActivity myActivity;
-    public TeacherListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
+    private List<HashMap<String, Object>>elements;
+    private MainActivity myActivity;
+    TeacherListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
         super(context, data, resource, from, to);
         myActivity = (MainActivity) context;
         elements = (List<HashMap<String, Object>>) data;
@@ -33,39 +36,57 @@ public class TeacherListAdapter extends SimpleAdapter {
     @Override
     public View getView(final int position, final View convertView, ViewGroup parent) {
         final View v = super.getView(position, convertView, parent);
+        final UserData u = (UserData) elements.get(position).get("data");
+
         ImageButton callTeacher = v.findViewById(R.id.phoneButton);
         RatingBar rBar = v.findViewById(R.id.voteRating);
-        ImageView profilePic = v.findViewById(R.id.profilePicView);
-
+        final ImageView profilePic = v.findViewById(R.id.profilePicView);
         rBar.setRating((float)elements.get(position).get("mRating"));
-        callTeacher.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v2) {
-                String phn = (String) elements.get(position).get("mPhone");
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:"+phn));
-                // No explanation needed; request the permission
-                if (ActivityCompat.checkSelfPermission(v2.getContext(),
-                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                v2.getContext().startActivity(callIntent);
+
+        Utilities.downloadWithTransferUtility(v, u);
+        callTeacher.setOnClickListener(v2 -> {
+            String phn = u.mPhone;
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:"+phn));
+            // No explanation needed; request the permission
+            if (ActivityCompat.checkSelfPermission(v2.getContext(),
+                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                return;
             }
+            v2.getContext().startActivity(callIntent);
         });
 
         ImageButton moreInfo = v.findViewById(R.id.moreInfoButton);
-        moreInfo.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v2) {
-                TeacherProfileFragment profileFragment = new TeacherProfileFragment();
-                profileFragment.setUserData((UserData) elements.get(position).get("data"));
-                myActivity.setFragment(profileFragment);
-            }
+        moreInfo.setOnClickListener(v2 -> {
+            TeacherProfileFragment profileFragment = new TeacherProfileFragment();
+            profileFragment.setUserData(u);
+            myActivity.setFragment(profileFragment);
         });
-        Utilities.downloadWithTransferUtility(v,"public/example-image.png");
-        File imgFile = new File(v.getContext().getFilesDir().getAbsolutePath()+"/photo.png");
-        if(imgFile.exists()){
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            profilePic.setImageBitmap(myBitmap);
-        }
+
+        //Utilities.downloadWithTransferUtility(v, u);
+        final File imgFile = new File(v.getContext().getCacheDir().getAbsolutePath()+"/"+u.mID+".png");
+
+        final Handler handler = new Handler();
+        new Thread(() -> {
+            int tries=0;
+            do{
+                try {
+                    if(imgFile.exists()) {
+                        final Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        handler.post(() -> {
+                            profilePic.setImageBitmap(myBitmap);
+                            v.invalidate();
+                        });
+
+                        tries = 1000;
+                    }
+                    Thread.sleep(300);
+                    tries++;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }while(tries <1000);
+        }).start();
 
         return v;
     }

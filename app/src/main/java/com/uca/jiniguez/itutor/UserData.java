@@ -1,29 +1,21 @@
 package com.uca.jiniguez.itutor;
 
 import android.util.Log;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.AbstractQueue;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class UserData {
     static String url = "http://10.23.99.82:5000";
-    static String noFileFound = "";
     String mID;
     String mName;
     String mPhone;
@@ -31,49 +23,60 @@ public class UserData {
     String mDescription;
     String mPassword;
     List<String> mSkills;
-    LatLng mPosition;
     List<String> mTeachers;
     float mRating;
-    String profilePic = noFileFound;
-    Integer formacion = 2;
+    Integer formacion = 0;
+    List<Boolean> levels;
     float price = 0;
     private String jsonObject = "";
+    String newProfilePic = "";
+    Boolean isFavourite = false;
 
     public UserData(){
         mSkills = new ArrayList<>();
-        mPosition = new LatLng(0,0);
         mTeachers = new ArrayList<>();
+        levels = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            levels.add(Boolean.FALSE);
+        }
     }
 
-    public static List<UserData> getUsers(final String skill,
-                                          final Integer distance,
-                                          final LatLng latlng,
-                                          final Integer minimumRating){
+    public static List<UserData> getUsers(
+            final String skill,
+            final Integer minimumRating,
+            final Integer maxPrice,
+            final Integer formation,
+            final List<Boolean> levels
+    ){
         final List<UserData> users = new ArrayList<>();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String json = "";
+                    String json;
                     String nextCondition = "?";
                     String server_response = "";
                     String url = UserData.url + "/user";
-
-                    if(skill.length()>0) {
-                        url += nextCondition + "skillName=" + skill;
+                    if(formation>0){
+                        url+= "?formation="+ formation;
                         nextCondition = "&";
                     }
-                    if(latlng!=null) {
-                        url += nextCondition + "latitude=" + latlng.latitude + "&longitude="+latlng.longitude;
+                    if(skill.length()>0) {
+                        url +=nextCondition + "skillName=" + skill;
                         nextCondition = "&";
                     }
                     if(minimumRating>0) {
-                        url += nextCondition + "minimumRating=" + minimumRating;
+                        url +=nextCondition + "minimumRating=" + minimumRating;
                         nextCondition = "&";
                     }
-                    if(distance>0)
-                        url += nextCondition + "distance=" + distance;
-
+                    if(maxPrice<99){
+                        url +=nextCondition + "maxPrice=" + maxPrice;
+                        nextCondition = "&";
+                    }
+                    for(Boolean level : levels){
+                        url+=nextCondition + "level="+level;
+                        nextCondition = "&";
+                    }
                     URL urlEndPoint = new URL(url);
                     HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
 
@@ -251,10 +254,12 @@ public class UserData {
                     jsonParam.put("email", mEmail);
                     jsonParam.put("quote", mDescription);
                     jsonParam.put("password", mPassword);
-                    jsonParam.put("latitude", mPosition.latitude);
-                    jsonParam.put("longitude", mPosition.longitude);
                     jsonParam.put("teachers", new JSONArray(mTeachers));
                     jsonParam.put("skills", new JSONArray(mSkills));
+
+                    jsonParam.put("formation", formacion);
+                    jsonParam.put("levels", new JSONArray(levels));
+                    jsonParam.put("price", price);
 
                     Log.i("JSON", jsonParam.toString());
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
@@ -295,12 +300,6 @@ public class UserData {
             mDescription = mDescription.equals("null")?"":mDescription;
 
             mPassword = datos.getString("password");
-            try {
-                mPosition = new LatLng(datos.getDouble("latitude"), datos.getDouble("longitude"));
-            }
-            catch (Exception e){
-                mPosition = new LatLng(0,0);
-            }
             mTeachers.clear();
             JSONArray jsonTeachers = datos.getJSONArray("teachers");
             for (int i = 0; i < jsonTeachers.length(); i++)
@@ -312,6 +311,16 @@ public class UserData {
                 JSONObject row = jsonSkills.getJSONObject(i);
                 mSkills.add(row.getString("skillName"));
             }
+
+            formacion = datos.getInt("formation");
+
+            levels.clear();
+            JSONArray jsonLevels = datos.getJSONArray("levels");
+            for (int i = 0; i < jsonTeachers.length(); i++)
+                levels.add(jsonLevels.getBoolean(i));
+
+            price = (float) datos.getDouble("price");
+
             getRating();
         }catch (JSONException e) {
             e.printStackTrace();

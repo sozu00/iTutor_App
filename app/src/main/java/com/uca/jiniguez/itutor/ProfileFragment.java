@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,31 +28,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
+public class ProfileFragment extends Fragment{
 
     private View v;
     private UserData userData;
     private String newSkill = "";
-    private GoogleMap mGoogleMap;
-    private MapView mMapView;
     private SkillListAdapter adapter;
     private ImageButton addSkill;
     private Button saveData;
@@ -64,6 +56,7 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
     private ImageView photo;
     private Spinner formation;
     private EditText price;
+    private List<CheckBox> levels;
 
     public ProfileFragment() {}
 
@@ -72,6 +65,7 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
         v = inflater.inflate(R.layout.fragment_profile, container, false);
         addSkill = v.findViewById(R.id.addSkillbtn);
         saveData = v.findViewById(R.id.saveDataButton);
@@ -85,28 +79,11 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
         photo = v.findViewById(R.id.profilePicView);
         formation = v.findViewById(R.id.spinner);
         price = v.findViewById(R.id.priceEditText);
-
-        photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Selecciona tu foto de perfil"), 1 );
-            }
-        });
-
-        Utilities.downloadWithTransferUtility(v, "public/example-image.png");
-        File imgFile = new File(v.getContext().getFilesDir().getAbsolutePath()+"/photo.png");
-        if(imgFile.exists()){
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            photo.setImageBitmap(myBitmap);
-        }
-        if(mMapView!=null) {
-            mMapView.onCreate(null);
-            mMapView.onResume();
-            mMapView.getMapAsync(this);
-        }
+        levels = new ArrayList<>();
+        levels.add((CheckBox) v.findViewById(R.id.basicCheck));
+        levels.add((CheckBox) v.findViewById(R.id.midCheck));
+        levels.add((CheckBox) v.findViewById(R.id.advancedCheck));
+        levels.add((CheckBox) v.findViewById(R.id.profesionalCheck));
 
         String[] from = { "flag","txt"};
         int[] to = { R.id.imageButton,R.id.txtList};
@@ -154,15 +131,33 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
                 return false;
             }
         });
+
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Selecciona tu foto de perfil"), 1 );
+            }
+        });
     }
 
     private void saveAllData() {
+
         userData.mName = nameTextView.getText().toString();
         userData.mPhone = phoneTextView.getText().toString();
         userData.mDescription = quoteTextView.getText().toString();
         userData.mSkills = adapter.getSkills();
         userData.formacion = formation.getSelectedItemPosition();
         userData.price = Float.valueOf(price.getText().toString());
+
+        for (int i = 0; i < levels.size(); i++)
+            userData.levels.set(i,levels.get(i).isChecked());
+
+        if(!userData.newProfilePic.equals(""))
+            Utilities.uploadWithTransferUtility(v, userData);
+
         userData.uploadData();
         ((MainActivity) v.getContext()).userData = userData;
         Toast.makeText(v.getContext(), "Guardado realizado con éxito", Toast.LENGTH_SHORT).show();
@@ -177,6 +172,37 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
         ratingBar.setRating(userData.mRating);
         formation.setSelection(userData.formacion);
         price.setText(Float.valueOf(userData.price).toString());
+        Utilities.downloadWithTransferUtility(v, userData);
+
+        for (int i = 0; i < userData.levels.size(); i++)
+            levels.get(i).setChecked(userData.levels.get(i));
+        final File imgFile = new File(v.getContext().getCacheDir().getAbsolutePath()+"/"+userData.mID+".png");
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int tries=0;
+                do{
+                    try {
+                        if(imgFile.exists()) {
+                            final Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                            handler.post(new Runnable(){
+                                public void run() {
+                                    photo.setImageBitmap(myBitmap);
+                                    v.invalidate();
+                                }
+                            });
+
+                            tries = 1000;
+                        }
+                        Thread.sleep(300);
+                        tries++;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }while(tries <1000);
+            }
+        }).start();
     }
 
 
@@ -217,34 +243,15 @@ public class ProfileFragment extends Fragment  implements OnMapReadyCallback {
 
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(getContext());
-
-        mGoogleMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(userData.mPosition));
-
-        CameraPosition Position = CameraPosition.builder().target(userData.mPosition).zoom(16).bearing(0).tilt(45).build();
-
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Position));
-    }
-
-
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == 1) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 if (Utilities.checkPermissionREAD_EXTERNAL_STORAGE(v.getContext())) {
-                    try {
-                        Utilities.uploadWithTransferUtility(Utilities.getPath(data.getData(),v), v);
-                        Bitmap myBitmap = BitmapFactory.decodeFile(Utilities.getPath(data.getData(),v));
-                        photo.setImageBitmap(myBitmap);
-                    } catch (URISyntaxException e) {
-                        e.printStackTrace();
-                    }
+                    userData.newProfilePic = Utilities.getPath(data.getData(),v);
+                    Bitmap myBitmap = BitmapFactory.decodeFile(Utilities.getPath(data.getData(),v));
+                    photo.setImageBitmap(myBitmap);
                 }
 
             }

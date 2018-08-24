@@ -6,11 +6,71 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/academyTextViewFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view8"
+        android:text="Formacion" />
+
+    <Spinner
+        android:id="@+id/spinnerFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/academyTextViewFilter"
+        android:entries="@array/list_academy" />
+
+    <CheckBox
+        android:id="@+id/profesionalCheckFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_alignStart="@+id/clearFiltersButton"
+        android:layout_below="@+id/midCheckFilter"
+        android:checked="false"
+        android:text="Profesional" />
+
+    <CheckBox
+        android:id="@+id/advancedCheckFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_alignStart="@+id/basicCheckFilter"
+        android:layout_alignTop="@+id/profesionalCheckFilter"
+        android:checked="false"
+        android:text="Avanzado" />
+
+    <CheckBox
+        android:id="@+id/midCheckFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_alignStart="@+id/clearFiltersButton"
+        android:layout_alignTop="@+id/basicCheckFilter"
+        android:checked="false"
+        android:text="Medio" />
+
+    <CheckBox
+        android:id="@+id/basicCheckFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_alignEnd="@+id/applyFiltersButton"
+        android:layout_alignTop="@+id/levelTextViewFilter"
+        android:checked="false"
+        android:text="Basico" />
+
+    <TextView
+        android:id="@+id/levelTextViewFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view9"
+        android:text="Nivel" />
+
+    <TextView
         android:id="@+id/ratingTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/distanceBarValue"
+        android:layout_below="@+id/view7"
         android:text="@string/rating_minimo"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
@@ -20,27 +80,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="169dp"
+        android:layout_below="@+id/ratingTextView"
         android:max="5"
         android:progress="0" />
-
-    <TextView
-        android:id="@+id/distanceTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="86dp"
-        android:text="@string/max_distance"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
 
     <TextView
         android:id="@+id/SkillTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:text="@string/filter_skill"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp" />
@@ -54,6 +103,32 @@
         android:ems="10"
         android:hint="@string/filter_skill"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/maxPriceTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view10"
+        android:text="Precio maximo"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <SeekBar
+        android:id="@+id/maxPriceFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/maxPriceTextView"
+        android:max="99"
+        android:progress="99" />
+
+    <View
+        android:id="@+id/view10"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ratingFilter" />
 
     <Button
         android:id="@+id/applyFiltersButton"
@@ -74,20 +149,11 @@
         android:layout_marginEnd="30dp"
         android:text="@string/limpiar_filtros" />
 
-    <SeekBar
-        android:id="@+id/distanceBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/distanceTextView"
-        android:max="100"
-        android:progress="0" />
-
     <TextView
-        android:id="@+id/distanceBarValue"
+        android:id="@+id/maxPriceBarValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/distanceBar"
+        android:layout_alignTop="@+id/view8"
         android:layout_centerHorizontal="true" />
 
     <TextView
@@ -96,5 +162,26 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ratingFilter"
         android:layout_centerHorizontal="true" />
+
+    <View
+        android:id="@+id/view7"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/skillSearchText" />
+
+    <View
+        android:id="@+id/view8"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/maxPriceFilter" />
+
+    <View
+        android:id="@+id/view9"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/academyTextViewFilter" />
 
 </RelativeLayout>

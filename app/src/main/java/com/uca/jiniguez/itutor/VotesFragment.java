@@ -1,16 +1,12 @@
 package com.uca.jiniguez.itutor;
 
 
-import android.Manifest;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.RatingBar;
-import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +35,7 @@ public class VotesFragment extends Fragment {
         String[] from = { "voterName","voteText", "voteRating"};
 
         // Ids of views in listview_layout
-        int[] to = { R.id.voterName, R.id.voteText, R.id.voteRating};
+        int[] to = { R.id.userName, R.id.voteText, R.id.voteRating};
 
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item
@@ -59,7 +55,7 @@ public class VotesFragment extends Fragment {
         votes.clear();
         for(VoteData vote : userData.getVotes()){
             HashMap<String, Object> hm = new HashMap<>();
-            hm.put("voterName", vote.voterUser);
+            hm.put("voterName", vote.voterName);
             hm.put("voteText", vote.comment);
             hm.put("voteRating", vote.rating);
             votes.add(hm);

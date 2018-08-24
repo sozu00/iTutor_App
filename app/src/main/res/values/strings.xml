@@ -115,4 +115,12 @@
     <string name="rating_minimo">Rating mínimo</string>
     <string name="limpiar_filtros">Limpiar Filtros</string>
     <string name="aplicar_filtros">Aplicar Filtros</string>
+    <string name="votar">Votar</string>
+
+    <string-array name="list_academy">
+        <item>Primaria</item>
+        <item>Secundaria</item>
+        <item>Bachiller</item>
+        <item>Universitario</item>
+    </string-array>
 </resources>

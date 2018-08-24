@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class SearchFragment extends Fragment {
     List<HashMap<String, Object>> teachers = new ArrayList<>();
+    private View v;
 
     public SearchFragment() {
     }
@@ -31,13 +32,13 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.onCreateView(inflater,container,savedInstanceState);
-        final View v =  inflater.inflate(R.layout.fragment_search, container, false);
+        v = inflater.inflate(R.layout.fragment_search, container, false);
         final ImageButton searchButton = v.findViewById(R.id.searchButton);
         // Keys used in Hashmap
-        String[] from = { "mName","mPhone", "mDescription", "icon", "mRating", "mImage"};
+        String[] from = { "mName","mPhone", "mDescription", "icon", "mRating"};
 
         // Ids of views in listview_layout
-        int[] to = { R.id.voterName, R.id.teacherPhone, R.id.teacherQuote, R.id.phoneButton, R.id.voteRating, R.id.profilePicView};
+        int[] to = { R.id.userName, R.id.teacherPhone, R.id.teacherQuote, R.id.phoneButton, R.id.voteRating};
 
         // Instantiating an adapter to store each items
         // R.layout.listview_layout defines the layout of each item
@@ -66,7 +67,7 @@ public class SearchFragment extends Fragment {
         return v;
     }
 
-    public void setUserData(List<UserData> allUsers) {
+    public void setUserData(List<UserData> allUsers, View v2) {
         teachers.clear();
         for(UserData user : allUsers){
             HashMap<String, Object> hm = new HashMap<>();
@@ -75,7 +76,6 @@ public class SearchFragment extends Fragment {
             hm.put("mPhone", user.mPhone);
             hm.put("mDescription", user.mDescription);
             hm.put("mRating", user.mRating);
-            hm.put("mImage", user.profilePic);
             hm.put("icon", Integer.toString(R.drawable.ic_call));
             hm.put("data", user);
             teachers.add(hm);

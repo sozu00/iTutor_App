@@ -28,7 +28,7 @@
         android:tint="@color/colorPrimaryDark" />
 
     <TextView
-        android:id="@+id/voterName"
+        android:id="@+id/userName"
         android:layout_width="174dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -40,7 +40,7 @@
         android:layout_width="125dp"
         android:layout_height="32dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/voterName"
+        android:layout_below="@+id/userName"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="114dp"
         android:gravity="center"
@@ -64,8 +64,8 @@
         android:id="@+id/phoneButton"
         android:layout_width="18sp"
         android:layout_height="32dp"
-        android:layout_alignStart="@+id/voterName"
-        android:layout_below="@+id/voterName"
+        android:layout_alignStart="@+id/userName"
+        android:layout_below="@+id/userName"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_call" />
