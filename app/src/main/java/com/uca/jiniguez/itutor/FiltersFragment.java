@@ -83,31 +83,23 @@ public class FiltersFragment extends Fragment {
     }
 
     private void setButtonsListeners(final View v) {
-        clearFilters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resetFilters();
-            }
-        });
+        clearFilters.setOnClickListener(view -> resetFilters());
 
-        applyFilters.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity myActivity;
-                myActivity = (MainActivity) v.getContext();
+        applyFilters.setOnClickListener(view -> {
+            MainActivity myActivity;
+            myActivity = (MainActivity) v.getContext();
 
-                final List<Boolean> lvl = new ArrayList<>();
-                for (CheckBox L: levels) {
-                    lvl.add(L.isChecked());
-                }
-                List<UserData> users = UserData.getUsers(skillFilter.getText().toString(),
-                        ratingBar.getProgress(),
-                        maxPriceBar.getProgress(),
-                        formacion.getSelectedItemPosition(),
-                        lvl);
-                myActivity.searchFragment.setUserData(users, v);
-                myActivity.setFragment(myActivity.searchFragment);
+            final List<Boolean> lvl = new ArrayList<>();
+            for (CheckBox L: levels) {
+                lvl.add(L.isChecked());
             }
+            List<UserData> users = UserData.getUsers(skillFilter.getText().toString(),
+                    ratingBar.getProgress(),
+                    maxPriceBar.getProgress(),
+                    formacion.getSelectedItemPosition(),
+                    lvl);
+            myActivity.searchFragment.setUserData(users, v);
+            myActivity.setFragment(myActivity.searchFragment);
         });
     }
 
