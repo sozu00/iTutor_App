@@ -21,12 +21,22 @@
     <FrameLayout
         android:id="@+id/main_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="431dp"
         android:layout_above="@id/main_nav"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true">
+        android:layout_marginTop="24dp">
 
     </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/exitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/baseline_exit_to_app_black_18dp" />
 
 </RelativeLayout>

@@ -1,13 +1,20 @@
 package com.uca.jiniguez.itutor;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ProfileFragment profileFragment;
     SearchFragment searchFragment;
     private FavTeachersFragment favTeachersFragment;
+    ImageButton exitButton;
 
     public static UserData userData = new UserData();
     public List<UserData> allUsers = new ArrayList<>();
@@ -42,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         userData.getDataFromJson(datos);
         //userData.downloadData();
-        allUsers = UserData.getUsers("",null,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
+        allUsers = UserData.getUsers("",0,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
         mMainFrame = findViewById(R.id.main_frame);
         mMainNav = findViewById(R.id.main_nav);
-
+        exitButton = findViewById(R.id.exitButton);
         profileFragment = new ProfileFragment();
         searchFragment = new SearchFragment();
         favTeachersFragment = new FavTeachersFragment();
@@ -59,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_search:
-                        allUsers = UserData.getUsers("",null,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
+                        allUsers = UserData.getUsers("",0,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
                         searchFragment.setUserData(allUsers, findViewById(android.R.id.content));
                         setFragment(searchFragment);
                         return true;
@@ -77,28 +85,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mMainNav.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
-                    switch (item.getItemId()){
-                        case R.id.nav_search:
-                            allUsers = UserData.getUsers("",null,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
-                            searchFragment.setUserData(allUsers, findViewById(android.R.id.content));
-                            setFragment(searchFragment);
-                            break;
-                        case R.id.nav_profile:
-                            profileFragment.setUserData(userData);
-                            setFragment(profileFragment);
-                            break;
-                        case R.id.nav_teachers:
-                            favTeachersFragment.setUserData(userData, findViewById(android.R.id.content));
-                            setFragment(favTeachersFragment);
-                            break;
-                        default:
-                            break;
-                    }
+        mMainNav.setOnNavigationItemReselectedListener(item -> {
+                switch (item.getItemId()){
+                    case R.id.nav_search:
+                        allUsers = UserData.getUsers("",0,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
+                        searchFragment.setUserData(allUsers, findViewById(android.R.id.content));
+                        setFragment(searchFragment);
+                        break;
+                    case R.id.nav_profile:
+                        profileFragment.setUserData(userData);
+                        setFragment(profileFragment);
+                        break;
+                    case R.id.nav_teachers:
+                        favTeachersFragment.setUserData(userData, findViewById(android.R.id.content));
+                        setFragment(favTeachersFragment);
+                        break;
+                    default:
+                        break;
                 }
             });
+
+        exitButton.setOnClickListener(view -> {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Cerrar sesión");
+            builder.setMessage("¿Estás seguro?");
+            builder.setPositiveButton("Sí", (dialogInterface, i) ->{
+                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            });
+            builder.setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
 
     }
 

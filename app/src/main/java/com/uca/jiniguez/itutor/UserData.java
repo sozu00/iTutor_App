@@ -49,56 +49,53 @@ public class UserData {
             final List<Boolean> levels
     ){
         final List<UserData> users = new ArrayList<>();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String json;
-                    String nextCondition = "?";
-                    String server_response = "";
-                    String url = UserData.url + "/user";
-                    if(formation>0){
-                        url+= "?formation="+ formation;
-                        nextCondition = "&";
-                    }
-                    if(skill.length()>0) {
-                        url +=nextCondition + "skillName=" + skill;
-                        nextCondition = "&";
-                    }
-                    if(minimumRating>0) {
-                        url +=nextCondition + "minimumRating=" + minimumRating;
-                        nextCondition = "&";
-                    }
-                    if(maxPrice<99){
-                        url +=nextCondition + "maxPrice=" + maxPrice;
-                        nextCondition = "&";
-                    }
-                    for(Boolean level : levels){
-                        url+=nextCondition + "level="+level;
-                        nextCondition = "&";
-                    }
-                    URL urlEndPoint = new URL(url);
-                    HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
-
-                    InputStream in = urlConnection.getInputStream();
-                    InputStreamReader isw = new InputStreamReader(in);
-                    int data = isw.read();
-                    while (data != -1) {
-                        char current = (char) data;
-                        data = isw.read();
-                        server_response += current;
-                    }
-
-                    json = server_response;
-                    JSONArray jsonarray = new JSONArray(json);
-                    for (int i = 0; i < jsonarray.length(); i++) {
-                        JSONObject jsonobject = jsonarray.getJSONObject(i);
-                        users.add(createUserFromJson(jsonobject));
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+        Thread thread = new Thread(() -> {
+            try {
+                String json;
+                String nextCondition = "?";
+                String server_response = "";
+                String url = UserData.url + "/user";
+                if(formation>0){
+                    url+= "?formation="+ formation;
+                    nextCondition = "&";
                 }
+                if(skill.length()>0) {
+                    url +=nextCondition + "skillName=" + skill;
+                    nextCondition = "&";
+                }
+                if(minimumRating>0) {
+                    url +=nextCondition + "minimumRating=" + minimumRating;
+                    nextCondition = "&";
+                }
+                if(maxPrice<99){
+                    url +=nextCondition + "maxPrice=" + maxPrice;
+                    nextCondition = "&";
+                }
+                for(Boolean level : levels){
+                    url+=nextCondition + "level="+level;
+                    nextCondition = "&";
+                }
+                URL urlEndPoint = new URL(url);
+                HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
+
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader isw = new InputStreamReader(in);
+                int data = isw.read();
+                while (data != -1) {
+                    char current = (char) data;
+                    data = isw.read();
+                    server_response += current;
+                }
+
+                json = server_response;
+                JSONArray jsonarray = new JSONArray(json);
+                for (int i = 0; i < jsonarray.length(); i++) {
+                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                    users.add(createUserFromJson(jsonobject));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         thread.start();
