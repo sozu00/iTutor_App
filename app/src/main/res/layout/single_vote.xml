@@ -12,15 +12,17 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="0dp" />
+        android:layout_marginTop="0dp"
+        android:text="Usuario votador" />
 
     <TextView
         android:id="@+id/voteText"
         android:layout_width="368dp"
         android:layout_height="58dp"
+        android:layout_alignLeft="@+id/userName"
         android:layout_alignStart="@+id/userName"
         android:layout_below="@+id/voteRating"
-        android:layout_alignLeft="@+id/userName" />
+        android:text="Descripcion del voto" />
 
     <RatingBar
         android:id="@+id/voteRating"
