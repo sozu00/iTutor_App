@@ -4,7 +4,7 @@
   "CredentialsProvider": {
     "CognitoIdentity": {
       "Default": {
-        "PoolId": "eu-west-1:f5adab5a-16c3-4d5e-b80c-c18ea4bf89d4",
+        "PoolId": "eu-west-1:dfa11695-0291-464e-bbae-3a061d6c4c84",
         "Region": "eu-west-1"
       }
     }
@@ -14,13 +14,13 @@
   },
   "S3TransferUtility": {
     "Default": {
-      "Bucket": "itutor-userfiles-mobilehub-1682953522",
+      "Bucket": "itutor-userfiles-mobilehub-1829117854",
       "Region": "eu-west-1"
     }
   },
   "PinpointAnalytics": {
     "Default": {
-      "AppId": "7e43e78b368047a993c5264dc357c967",
+      "AppId": "a098896df9f441b8a2cdb3066c9d2697",
       "Region": "us-east-1"
     }
   },
@@ -31,7 +31,7 @@
   },
   "UserFileManager": {
     "Default": {
-      "Bucket": "itutor-userfiles-mobilehub-1682953522",
+      "Bucket": "itutor-userfiles-mobilehub-1829117854",
       "Region": "eu-west-1"
     }
   }
