@@ -2,19 +2,18 @@ package com.uca.jiniguez.itutor;
 
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,6 +31,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment{
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
@@ -80,10 +80,10 @@ public class ProfileFragment extends Fragment{
         formation = v.findViewById(R.id.spinner);
         price = v.findViewById(R.id.priceEditText);
         levels = new ArrayList<>();
-        levels.add((CheckBox) v.findViewById(R.id.basicCheck));
-        levels.add((CheckBox) v.findViewById(R.id.midCheck));
-        levels.add((CheckBox) v.findViewById(R.id.advancedCheck));
-        levels.add((CheckBox) v.findViewById(R.id.profesionalCheck));
+        levels.add(v.findViewById(R.id.basicCheck));
+        levels.add(v.findViewById(R.id.midCheck));
+        levels.add(v.findViewById(R.id.advancedCheck));
+        levels.add(v.findViewById(R.id.profesionalCheck));
 
         String[] from = { "flag","txt"};
         int[] to = { R.id.imageButton,R.id.txtList};
@@ -95,51 +95,33 @@ public class ProfileFragment extends Fragment{
         return v;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListeners() {
-        addSkill.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getNewSkill();
-            }
+        addSkill.setOnClickListener(view -> getNewSkill());
+
+        saveData.setOnClickListener(view -> saveAllData());
+
+        votesInfo.setOnClickListener(view -> {
+            FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+            VotesFragment votesFragment = new VotesFragment();
+            votesFragment.setUserData(userData);
+
+            fragmentTransaction.replace(R.id.main_frame, votesFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
+        // Setting on Touch Listener for handling the touch inside ScrollView
+        listView.setOnTouchListener((v, event) -> {
+            // Disallow the touch request for parent scroll on touch of child view
+            v.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
         });
 
-        saveData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveAllData();
-            }
-        });
-
-        votesInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                VotesFragment votesFragment = new VotesFragment();
-                votesFragment.setUserData(userData);
-
-                fragmentTransaction.replace(R.id.main_frame, votesFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-        listView.setOnTouchListener(new View.OnTouchListener() {
-            // Setting on Touch Listener for handling the touch inside ScrollView
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Disallow the touch request for parent scroll on touch of child view
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-
-        photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Selecciona tu foto de perfil"), 1 );
-            }
+        photo.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Selecciona tu foto de perfil"), 1 );
         });
     }
 
@@ -159,10 +141,11 @@ public class ProfileFragment extends Fragment{
             Utilities.uploadWithTransferUtility(v, userData);
 
         userData.uploadData();
-        ((MainActivity) v.getContext()).userData = userData;
+        MainActivity.userData = userData;
         Toast.makeText(v.getContext(), "Guardado realizado con éxito", Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void loadAllData(){
         nameTextView.setText(userData.mName);
         phoneTextView.setText(userData.mPhone);
@@ -178,30 +161,25 @@ public class ProfileFragment extends Fragment{
             levels.get(i).setChecked(userData.levels.get(i));
         final File imgFile = new File(v.getContext().getCacheDir().getAbsolutePath()+"/"+userData.mID+".png");
         final Handler handler = new Handler();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int tries=0;
-                do{
-                    try {
-                        if(imgFile.exists()) {
-                            final Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                            handler.post(new Runnable(){
-                                public void run() {
-                                    photo.setImageBitmap(myBitmap);
-                                    v.invalidate();
-                                }
-                            });
+        new Thread(() -> {
+            int tries=0;
+            do{
+                try {
+                    if(imgFile.exists()) {
+                        final Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        handler.post(() -> {
+                            photo.setImageBitmap(myBitmap);
+                            v.invalidate();
+                        });
 
-                            tries = 1000;
-                        }
-                        Thread.sleep(300);
-                        tries++;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        tries = 1000;
                     }
-                }while(tries <1000);
-            }
+                    Thread.sleep(300);
+                    tries++;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }while(tries <1000);
         }).start();
     }
 
@@ -211,7 +189,7 @@ public class ProfileFragment extends Fragment{
     }
 
 
-    public void getNewSkill(){
+    private void getNewSkill(){
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
         builder.setTitle("Nueva materia");
         newSkill = "";
@@ -220,23 +198,15 @@ public class ProfileFragment extends Fragment{
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                newSkill = input.getText().toString();
-                HashMap<String, String> hm = new HashMap<>();
-                hm.put("txt", newSkill);
-                hm.put("flag", Integer.toString(R.drawable.ic_delete));
-                adapter.elements.add(hm);
-                adapter.notifyDataSetChanged();
-            }
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            newSkill = input.getText().toString();
+            HashMap<String, String> hm = new HashMap<>();
+            hm.put("txt", newSkill);
+            hm.put("flag", Integer.toString(R.drawable.ic_delete));
+            adapter.elements.add(hm);
+            adapter.notifyDataSetChanged();
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         builder.show();
     }
@@ -260,12 +230,10 @@ public class ProfileFragment extends Fragment{
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case Utilities.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // do your stuff
-                } else {
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(v.getContext(), "GET_ACCOUNTS Denied",
                             Toast.LENGTH_SHORT).show();
                 }

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidDomInspection -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="6dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
     <RelativeLayout
-        android:id="@+id/teacherLayout"
         android:layout_width="wrap_content"
         android:layout_height="600dp"
         android:orientation="vertical">
@@ -46,7 +46,8 @@
             android:layout_below="@+id/skillTextView"
             android:divider="@android:color/holo_orange_light"
             android:entries="@array/pref_example_list_titles"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            tools:ignore="NestedScrolling" />
 
         <TextView
             android:id="@+id/mailEditText"
@@ -80,7 +81,8 @@
             android:hint="@string/hint_quote"
             android:inputType="textMultiLine"
             android:text="@string/acc_quote"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/skillTextView"
@@ -126,7 +128,8 @@
             android:layout_alignParentEnd="true"
             android:background="@android:color/transparent"
             android:contentDescription="Add Skill"
-            android:src="@android:drawable/ic_input_add" />
+            android:src="@android:drawable/ic_input_add"
+            tools:ignore="HardcodedText" />
 
         <ImageButton
             android:id="@+id/votesInfo"
@@ -137,7 +140,9 @@
             android:background="@color/colorWhiteTransparent"
             android:cropToPadding="false"
             android:src="@android:drawable/ic_dialog_info"
-            android:tint="@color/colorPrimaryDark" />
+            android:tint="@color/colorPrimaryDark"
+            android:contentDescription="Información de votos"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/profilePicView"
@@ -148,7 +153,9 @@
             android:adjustViewBounds="true"
             android:background="@android:drawable/picture_frame"
             android:cropToPadding="true"
-            android:src="@android:drawable/alert_dark_frame" />
+            android:src="@android:drawable/alert_dark_frame"
+            android:contentDescription="Foto de perfil"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/priceTextView"
@@ -157,7 +164,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view"
             android:text="Precio:"
-            tools:text="Precio: " />
+            tools:text="Precio: "
+            tools:ignore="HardcodedText" />
 
         <EditText
             android:id="@+id/priceEditText"
@@ -168,7 +176,8 @@
             android:ems="10"
             android:inputType="numberDecimal"
             android:singleLine="true"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:ignore="LabelFor" />
 
         <View
             android:id="@+id/view"
@@ -190,7 +199,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view3"
-            android:text="Nivel" />
+            android:text="Nivel"
+            tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/basicCheck"
@@ -199,7 +209,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view5"
             android:checked="false"
-            android:text="Basico" />
+            android:text="Basico"
+            tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/midCheck"
@@ -208,7 +219,8 @@
             android:layout_alignStart="@+id/basicCheck"
             android:layout_below="@+id/basicCheck"
             android:checked="false"
-            android:text="Medio" />
+            android:text="Medio"
+            tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/advancedCheck"
@@ -217,7 +229,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/midCheck"
             android:checked="false"
-            android:text="Avanzado" />
+            android:text="Avanzado"
+            tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/profesionalCheck"
@@ -226,7 +239,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/advancedCheck"
             android:checked="false"
-            android:text="Profesional" />
+            android:text="Profesional"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/academyTextView"
@@ -234,7 +248,8 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/spinner"
             android:layout_alignTop="@+id/levelTextView"
-            android:text="Formacion" />
+            android:text="Formacion"
+            tools:ignore="HardcodedText" />
 
         <Spinner
             android:id="@+id/spinner"
@@ -252,12 +267,12 @@
             android:layout_below="@+id/phoneEditText" />
 
         <TextView
-            android:id="@+id/price3TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/priceTextView"
             android:layout_toEndOf="@+id/priceEditText"
-            android:text="€/h" />
+            android:text="€/h"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/mailImgView"
@@ -265,7 +280,9 @@
             android:layout_height="19dp"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/mailEditText"
-            android:src="@drawable/ic_menu_send" />
+            app:srcCompat="@drawable/ic_menu_send"
+            android:contentDescription="Enviar Email"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/phoneImgView"
@@ -273,7 +290,9 @@
             android:layout_height="41dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view4"
-            android:src="@android:drawable/sym_action_call" />
+            android:src="@android:drawable/sym_action_call"
+            android:contentDescription="Llamar"
+            tools:ignore="HardcodedText" />
 
     </RelativeLayout>
 </ScrollView>

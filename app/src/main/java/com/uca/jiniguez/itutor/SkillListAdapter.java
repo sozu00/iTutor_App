@@ -5,15 +5,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SkillListAdapter extends SimpleAdapter {
-    List<HashMap<String, String>>elements;
+@SuppressWarnings("unchecked")
+class SkillListAdapter extends SimpleAdapter {
+    final List<HashMap<String, String>>elements;
     public SkillListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
         super(context, data, resource, from, to);
         elements = (List<HashMap<String, String>>) data;
@@ -23,11 +23,9 @@ public class SkillListAdapter extends SimpleAdapter {
     public View getView(final int position, final View convertView, ViewGroup parent) {
         View v = super.getView(position, convertView, parent);
         ImageButton deleteImageView = v.findViewById(R.id.imageButton);
-        deleteImageView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v2) {
-                elements.remove(position);
-                notifyDataSetChanged();
-            }
+        deleteImageView.setOnClickListener(v2 -> {
+            elements.remove(position);
+            notifyDataSetChanged();
         });
         return v;
     }
@@ -42,7 +40,7 @@ public class SkillListAdapter extends SimpleAdapter {
     }
 
     public List<String> getSkills(){
-        List<String> skills = new ArrayList<String>();
+        List<String> skills = new ArrayList<>();
         for(HashMap<String, String> a: elements){
             skills.add(a.get("txt"));
         }

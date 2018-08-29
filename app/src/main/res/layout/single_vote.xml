@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -13,7 +14,8 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="0dp"
-        android:text="Usuario votador" />
+        android:text="Usuario votador"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <TextView
         android:id="@+id/voteText"
@@ -22,7 +24,8 @@
         android:layout_alignLeft="@+id/userName"
         android:layout_alignStart="@+id/userName"
         android:layout_below="@+id/voteRating"
-        android:text="Descripcion del voto" />
+        android:text="Descripcion del voto"
+        tools:ignore="HardcodedText,RtlHardcoded" />
 
     <RatingBar
         android:id="@+id/voteRating"
@@ -32,6 +35,7 @@
         android:layout_alignStart="@+id/userName"
         android:layout_below="@+id/userName"
         android:isIndicator="true"
-        android:numStars="5" />
+        android:numStars="5"
+        tools:ignore="RtlHardcoded" />
 
 </RelativeLayout>

@@ -26,7 +26,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="24dp">
+        android:layout_marginTop="24dp"
+        tools:ignore="RtlHardcoded">
 
     </FrameLayout>
 
@@ -37,6 +38,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
-        app:srcCompat="@drawable/baseline_exit_to_app_black_18dp" />
+        app:srcCompat="@drawable/baseline_exit_to_app_black_18dp"
+        android:contentDescription="Botón de salida"
+        tools:ignore="HardcodedText" />
 
 </RelativeLayout>

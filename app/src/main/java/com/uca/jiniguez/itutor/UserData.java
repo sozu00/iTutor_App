@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserData {
-    static String url = "http://10.23.99.82:5000";
+    static final String url = "http://itutor.eu-west-1.elasticbeanstalk.com";
     String mID;
     String mName;
     String mPhone;
@@ -23,14 +23,13 @@ public class UserData {
     String mDescription;
     String mPassword;
     List<String> mSkills;
-    List<String> mTeachers;
+    final List<String> mTeachers;
     float mRating;
     Integer formacion = 0;
-    List<Boolean> levels;
+    final List<Boolean> levels;
     float price = 0;
     private String jsonObject = "";
     String newProfilePic = "";
-    Boolean isFavourite = false;
 
     public UserData(){
         mSkills = new ArrayList<>();
@@ -52,30 +51,22 @@ public class UserData {
         Thread thread = new Thread(() -> {
             try {
                 String json;
-                String nextCondition = "?";
-                String server_response = "";
-                String url = UserData.url + "/user";
-                if(formation>0){
-                    url+= "?formation="+ formation;
-                    nextCondition = "&";
-                }
+                StringBuilder server_response = new StringBuilder();
+                StringBuilder url = new StringBuilder(UserData.url + "/user");
+                url.append("?formation=").append(formation);
                 if(skill.length()>0) {
-                    url +=nextCondition + "skillName=" + skill;
-                    nextCondition = "&";
+                    url.append("&skillName=").append(skill);
                 }
                 if(minimumRating>0) {
-                    url +=nextCondition + "minimumRating=" + minimumRating;
-                    nextCondition = "&";
+                    url.append("&minimumRating=").append(minimumRating);
                 }
                 if(maxPrice<99){
-                    url +=nextCondition + "maxPrice=" + maxPrice;
-                    nextCondition = "&";
+                    url.append("&maxPrice=").append(maxPrice);
                 }
                 for(Boolean level : levels){
-                    url+=nextCondition + "level="+level;
-                    nextCondition = "&";
+                    url.append("&level=").append(level);
                 }
-                URL urlEndPoint = new URL(url);
+                URL urlEndPoint = new URL(url.toString());
                 HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
 
                 InputStream in = urlConnection.getInputStream();
@@ -84,10 +75,10 @@ public class UserData {
                 while (data != -1) {
                     char current = (char) data;
                     data = isw.read();
-                    server_response += current;
+                    server_response.append(current);
                 }
 
-                json = server_response;
+                json = server_response.toString();
                 JSONArray jsonarray = new JSONArray(json);
                 for (int i = 0; i < jsonarray.length(); i++) {
                     JSONObject jsonobject = jsonarray.getJSONObject(i);
@@ -107,37 +98,34 @@ public class UserData {
         return users;
     }
 
-    public void getRating(){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // Simulate network access.
-                    //Thread.sleep(2000);
-                    String server_response = "";
-                    String url = UserData.url + "/vote/" + mID + "/rating";
-                    //String url = "http://itutor-env.eu-west-3.elasticbeanstalk.com/";
-                    URL urlEndPoint = new URL(url);
-                    HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
+    private void getRating(){
+        Thread thread = new Thread(() -> {
+            try {
+                // Simulate network access.
+                //Thread.sleep(2000);
+                StringBuilder server_response = new StringBuilder();
+                String url = UserData.url + "/vote/" + mID + "/rating";
+                //String url = "http://itutor-env.eu-west-3.elasticbeanstalk.com/";
+                URL urlEndPoint = new URL(url);
+                HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
 
-                    InputStream in = urlConnection.getInputStream();
-                    InputStreamReader isw = new InputStreamReader(in);
-                    int data = isw.read();
-                    while (data != -1) {
-                        char current = (char) data;
-                        data = isw.read();
-                        server_response += current;
-                    }
-
-                    jsonObject = server_response;
-                    try{
-                        mRating = Float.valueOf(jsonObject);
-                    } catch (Exception e){
-                        mRating = 0;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader isw = new InputStreamReader(in);
+                int data = isw.read();
+                while (data != -1) {
+                    char current = (char) data;
+                    data = isw.read();
+                    server_response.append(current);
                 }
+
+                jsonObject = server_response.toString();
+                try{
+                    mRating = Float.valueOf(jsonObject);
+                } catch (Exception e){
+                    mRating = 0;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         thread.start();
@@ -151,35 +139,32 @@ public class UserData {
 
     public List<VoteData> getVotes(){
         final List<VoteData> votes = new ArrayList<>();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // Simulate network access.
-                    //Thread.sleep(2000);
-                    String server_response = "";
-                    String url = UserData.url + "/vote/" + mID;
-                    URL urlEndPoint = new URL(url);
-                    HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
+        Thread thread = new Thread(() -> {
+            try {
+                // Simulate network access.
+                //Thread.sleep(2000);
+                StringBuilder server_response = new StringBuilder();
+                String url = UserData.url + "/vote/" + mID;
+                URL urlEndPoint = new URL(url);
+                HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
 
-                    InputStream in = urlConnection.getInputStream();
-                    InputStreamReader isw = new InputStreamReader(in);
-                    int data = isw.read();
-                    while (data != -1) {
-                        char current = (char) data;
-                        data = isw.read();
-                        server_response += current;
-                    }
-
-                    String json = server_response;
-                    JSONArray jsonarray = new JSONArray(json);
-                    for (int i = 0; i < jsonarray.length(); i++) {
-                        JSONObject jsonobject = jsonarray.getJSONObject(i);
-                        votes.add(VoteData.createVoteFromJson(jsonobject));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader isw = new InputStreamReader(in);
+                int data = isw.read();
+                while (data != -1) {
+                    char current = (char) data;
+                    data = isw.read();
+                    server_response.append(current);
                 }
+
+                String json = server_response.toString();
+                JSONArray jsonarray = new JSONArray(json);
+                for (int i = 0; i < jsonarray.length(); i++) {
+                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                    votes.add(VoteData.createVoteFromJson(jsonobject));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         thread.start();
@@ -194,35 +179,32 @@ public class UserData {
 
 
     public void createUser(){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(UserData.url+"/user");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
+        Thread thread = new Thread(() -> {
+            try {
+                URL url = new URL(UserData.url+"/user");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept","application/json");
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
 
-                    JSONObject jsonParam = new JSONObject();
-                    jsonParam.put("email", mEmail);
-                    jsonParam.put("password", mPassword);
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("email", mEmail);
+                jsonParam.put("password", mPassword);
 
-                    Log.i("JSON", jsonParam.toString());
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                    os.writeBytes(jsonParam.toString());
+                Log.i("JSON", jsonParam.toString());
+                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                os.writeBytes(jsonParam.toString());
 
-                    os.flush();
-                    os.close();
+                os.flush();
+                os.close();
 
-                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                    Log.i("MSG" , conn.getResponseMessage());
+                Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                Log.i("MSG" , conn.getResponseMessage());
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         thread.start();
@@ -233,44 +215,41 @@ public class UserData {
         }
     }
     public void uploadData(){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(UserData.url+"/user/"+ mID);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("PUT");
-                    conn.setRequestProperty("Content-Type", "application/json");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
+        Thread thread = new Thread(() -> {
+            try {
+                URL url = new URL(UserData.url+"/user/"+ mID);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("PUT");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Accept","application/json");
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
 
-                    JSONObject jsonParam = new JSONObject();
-                    jsonParam.put("name", mName);
-                    jsonParam.put("phoneNum", mPhone);
-                    jsonParam.put("email", mEmail);
-                    jsonParam.put("quote", mDescription);
-                    jsonParam.put("password", mPassword);
-                    jsonParam.put("teachers", new JSONArray(mTeachers));
-                    jsonParam.put("skills", new JSONArray(mSkills));
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("name", mName);
+                jsonParam.put("phoneNum", mPhone);
+                jsonParam.put("email", mEmail);
+                jsonParam.put("quote", mDescription);
+                jsonParam.put("password", mPassword);
+                jsonParam.put("teachers", new JSONArray(mTeachers));
+                jsonParam.put("skills", new JSONArray(mSkills));
 
-                    jsonParam.put("formation", formacion);
-                    jsonParam.put("levels", new JSONArray(levels));
-                    jsonParam.put("price", price);
+                jsonParam.put("formation", formacion);
+                jsonParam.put("levels", new JSONArray(levels));
+                jsonParam.put("price", price);
 
-                    Log.i("JSON", jsonParam.toString());
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                    os.writeBytes(jsonParam.toString());
+                Log.i("JSON", jsonParam.toString());
+                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                os.writeBytes(jsonParam.toString());
 
-                    os.flush();
-                    os.close();
+                os.flush();
+                os.close();
 
-                    Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                    Log.i("MSG" , conn.getResponseMessage());
+                Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                Log.i("MSG" , conn.getResponseMessage());
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         thread.start();
@@ -311,10 +290,9 @@ public class UserData {
 
             formacion = datos.getInt("formation");
 
-            levels.clear();
             JSONArray jsonLevels = datos.getJSONArray("levels");
             for (int i = 0; i < jsonTeachers.length(); i++)
-                levels.add(jsonLevels.getBoolean(i));
+                levels.set(i,jsonLevels.getBoolean(i));
 
             price = (float) datos.getDouble("price");
 
@@ -325,7 +303,7 @@ public class UserData {
         }
     }
 
-    public static UserData createUserFromJson(JSONObject datos) {
+    private static UserData createUserFromJson(JSONObject datos) {
         UserData u = new UserData();
         u.getDataFromJson(datos);
         return u;
@@ -333,31 +311,28 @@ public class UserData {
 
     public static UserData findUser(final String teacher) {
         final UserData[] u = {new UserData()};
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String json;
-                    String server_response = "";
-                    String url = UserData.url + "/user/"+teacher;
-                    URL urlEndPoint = new URL(url);
-                    HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
+        Thread thread = new Thread(() -> {
+            try {
+                String json;
+                StringBuilder server_response = new StringBuilder();
+                String url = UserData.url + "/user/"+teacher;
+                URL urlEndPoint = new URL(url);
+                HttpURLConnection urlConnection = (HttpURLConnection) urlEndPoint.openConnection();
 
-                    InputStream in = urlConnection.getInputStream();
-                    InputStreamReader isw = new InputStreamReader(in);
-                    int data = isw.read();
-                    while (data != -1) {
-                        char current = (char) data;
-                        data = isw.read();
-                        server_response += current;
-                    }
-
-                    json = server_response;
-                    JSONObject jsonobject = new JSONObject(json);
-                    u[0] = createUserFromJson(jsonobject);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                InputStream in = urlConnection.getInputStream();
+                InputStreamReader isw = new InputStreamReader(in);
+                int data = isw.read();
+                while (data != -1) {
+                    char current = (char) data;
+                    data = isw.read();
+                    server_response.append(current);
                 }
+
+                json = server_response.toString();
+                JSONObject jsonobject = new JSONObject(json);
+                u[0] = createUserFromJson(jsonobject);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
         thread.start();

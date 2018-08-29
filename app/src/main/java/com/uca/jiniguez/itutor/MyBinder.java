@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
 
-public class MyBinder implements SimpleAdapter.ViewBinder {
+class MyBinder implements SimpleAdapter.ViewBinder {
     @Override
     public boolean setViewValue(View view, Object data, String textRepresentation) {
         if (view.getId() == R.id.voteRating) {

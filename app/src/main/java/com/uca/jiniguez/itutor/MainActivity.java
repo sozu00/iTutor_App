@@ -1,19 +1,12 @@
 package com.uca.jiniguez.itutor;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import org.json.JSONException;
@@ -26,17 +19,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-    private BottomNavigationView mMainNav;
-    private FrameLayout mMainFrame;
-
     private ProfileFragment profileFragment;
     SearchFragment searchFragment;
     private FavTeachersFragment favTeachersFragment;
-    ImageButton exitButton;
 
     public static UserData userData = new UserData();
-    public List<UserData> allUsers = new ArrayList<>();
-    JSONObject datos;
+    private List<UserData> allUsers = new ArrayList<>();
+    private JSONObject datos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,37 +40,33 @@ public class MainActivity extends AppCompatActivity {
         userData.getDataFromJson(datos);
         //userData.downloadData();
         allUsers = UserData.getUsers("",0,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
-        mMainFrame = findViewById(R.id.main_frame);
-        mMainNav = findViewById(R.id.main_nav);
-        exitButton = findViewById(R.id.exitButton);
+        BottomNavigationView mMainNav = findViewById(R.id.main_nav);
+        ImageButton exitButton = findViewById(R.id.exitButton);
         profileFragment = new ProfileFragment();
         searchFragment = new SearchFragment();
         favTeachersFragment = new FavTeachersFragment();
 
         profileFragment.setUserData(userData);
-        searchFragment.setUserData(allUsers, findViewById(android.R.id.content));
+        searchFragment.setUserData(allUsers);
         setFragment(searchFragment);
 
-        mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.nav_search:
-                        allUsers = UserData.getUsers("",0,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
-                        searchFragment.setUserData(allUsers, findViewById(android.R.id.content));
-                        setFragment(searchFragment);
-                        return true;
-                    case R.id.nav_profile:
-                        profileFragment.setUserData(userData);
-                        setFragment(profileFragment);
-                        return true;
-                    case R.id.nav_teachers:
-                        favTeachersFragment.setUserData(userData, findViewById(android.R.id.content));
-                        setFragment(favTeachersFragment);
-                        return true;
-                    default:
-                        return false;
-                }
+        mMainNav.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.nav_search:
+                    allUsers = UserData.getUsers("",0,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
+                    searchFragment.setUserData(allUsers);
+                    setFragment(searchFragment);
+                    return true;
+                case R.id.nav_profile:
+                    profileFragment.setUserData(userData);
+                    setFragment(profileFragment);
+                    return true;
+                case R.id.nav_teachers:
+                    favTeachersFragment.setUserData(userData);
+                    setFragment(favTeachersFragment);
+                    return true;
+                default:
+                    return false;
             }
         });
 
@@ -89,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.nav_search:
                         allUsers = UserData.getUsers("",0,99,0, new ArrayList<>(Arrays.asList(true,true,true,true)));
-                        searchFragment.setUserData(allUsers, findViewById(android.R.id.content));
+                        searchFragment.setUserData(allUsers);
                         setFragment(searchFragment);
                         break;
                     case R.id.nav_profile:
@@ -97,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(profileFragment);
                         break;
                     case R.id.nav_teachers:
-                        favTeachersFragment.setUserData(userData, findViewById(android.R.id.content));
+                        favTeachersFragment.setUserData(userData);
                         setFragment(favTeachersFragment);
                         break;
                     default:

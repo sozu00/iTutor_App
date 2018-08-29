@@ -1,8 +1,6 @@
 package com.uca.jiniguez.itutor;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TeacherListAdapter extends SimpleAdapter {
-    private List<HashMap<String, Object>>elements;
-    private MainActivity myActivity;
-    TeacherListAdapter(Context context, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
-        super(context, data, resource, from, to);
+@SuppressWarnings("unchecked")
+class TeacherListAdapter extends SimpleAdapter {
+    private final List<HashMap<String, Object>>elements;
+    private final MainActivity myActivity;
+    TeacherListAdapter(Context context, List<? extends Map<String, ?>> data, String[] from, int[] to) {
+        super(context, data, R.layout.single_teacher, from, to);
         myActivity = (MainActivity) context;
         elements = (List<HashMap<String, Object>>) data;
     }

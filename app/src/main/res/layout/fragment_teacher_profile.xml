@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidDomInspection -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="6dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ProfileFragment">
 
     <RelativeLayout
@@ -13,7 +14,6 @@
         android:orientation="vertical">
 
         <View
-            android:id="@+id/view6"
             android:layout_width="wrap_content"
             android:layout_height="77dp"
             android:layout_alignParentStart="true"
@@ -52,7 +52,8 @@
             android:layout_below="@+id/skillTextView"
             android:divider="@android:color/holo_orange_light"
             android:entries="@array/pref_example_list_titles"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            tools:ignore="NestedScrolling" />
 
         <TextView
             android:id="@+id/mailTextView"
@@ -79,7 +80,6 @@
             android:layout_alignStart="@+id/nameTextView"
             android:layout_below="@+id/voteRating"
             android:ems="10"
-            android:inputType="textMultiLine"
             android:text="@string/acc_quote"
             android:textSize="10sp" />
 
@@ -90,7 +90,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/blankSpaceQuoteSkill"
-            android:text="@string/skills" />
+            android:text="@string/skills"
+            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:id="@+id/nameTextView"
@@ -99,7 +100,6 @@
             android:layout_alignBottom="@+id/voteRating"
             android:layout_toEndOf="@+id/profilePicView"
             android:ems="10"
-            android:inputType="textPersonName"
             android:text="@string/acc_name"
             android:textSize="12sp" />
 
@@ -120,7 +120,9 @@
             android:background="@color/colorWhiteTransparent"
             android:cropToPadding="false"
             android:src="@android:drawable/ic_dialog_info"
-            android:tint="@color/colorPrimaryDark" />
+            android:tint="@color/colorPrimaryDark"
+            android:contentDescription="Informacion extra"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/profilePicView"
@@ -131,7 +133,9 @@
             android:adjustViewBounds="true"
             android:background="@android:drawable/picture_frame"
             android:cropToPadding="true"
-            android:src="@android:drawable/alert_dark_frame" />
+            android:src="@android:drawable/alert_dark_frame"
+            android:contentDescription="Foto de perfil"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/priceTextView"
@@ -140,7 +144,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view"
             android:text="Precio:"
-            tools:text="Precio: " />
+            tools:text="Precio: "
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/price2TextView"
@@ -149,7 +154,6 @@
             android:layout_alignBaseline="@+id/priceTextView"
             android:layout_toEndOf="@+id/priceTextView"
             android:ems="10"
-            android:inputType="numberDecimal"
             android:singleLine="true"
             android:textSize="12sp" />
 
@@ -173,7 +177,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view3"
-            android:text="Nivel" />
+            android:text="Nivel"
+            tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/basicCheck"
@@ -183,7 +188,8 @@
             android:layout_below="@+id/view5"
             android:checked="false"
             android:clickable="false"
-            android:text="Basico" />
+            android:text="Basico"
+            tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/midCheck"
@@ -193,7 +199,8 @@
             android:layout_below="@+id/basicCheck"
             android:checked="false"
             android:clickable="false"
-            android:text="Medio" />
+            android:text="Medio"
+            tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/advancedCheck"
@@ -203,7 +210,8 @@
             android:layout_below="@+id/midCheck"
             android:checked="false"
             android:clickable="false"
-            android:text="Avanzado" />
+            android:text="Avanzado"
+            tools:ignore="HardcodedText" />
 
         <CheckBox
             android:id="@+id/profesionalCheck"
@@ -213,7 +221,8 @@
             android:layout_below="@+id/advancedCheck"
             android:checked="false"
             android:clickable="false"
-            android:text="Profesional" />
+            android:text="Profesional"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/academyTextView"
@@ -221,7 +230,8 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/spinner"
             android:layout_alignTop="@+id/levelTextView"
-            android:text="Formacion" />
+            android:text="Formacion"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/spinner"
@@ -229,7 +239,8 @@
             android:layout_height="18dp"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/basicCheck"
-            android:text="Primaria" />
+            android:text="Primaria"
+            tools:ignore="HardcodedText" />
 
         <View
             android:id="@+id/view3"
@@ -239,12 +250,12 @@
             android:layout_below="@+id/phoneTextView" />
 
         <TextView
-            android:id="@+id/price3TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/priceTextView"
             android:layout_toEndOf="@+id/price2TextView"
-            android:text="euros por hora" />
+            android:text="euros por hora"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/mailImgView"
@@ -252,7 +263,9 @@
             android:layout_height="19dp"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/mailTextView"
-            android:src="@drawable/ic_menu_send" />
+            app:srcCompat="@drawable/ic_menu_send"
+            android:contentDescription="Enviar email"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/phoneImgView"
@@ -260,7 +273,9 @@
             android:layout_height="19dp"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/view4"
-            android:src="@android:drawable/sym_action_call" />
+            android:src="@android:drawable/sym_action_call"
+            android:contentDescription="Llamar"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/voteButton"
@@ -269,7 +284,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/SkillsList"
             android:layout_marginStart="130dp"
-            android:text="Valorame" />
+            android:text="Valorame"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/isFavouriteView"
@@ -278,7 +294,9 @@
             android:layout_above="@+id/mailTextView"
             android:layout_toEndOf="@+id/quoteTextView"
             android:background="@android:color/transparent"
-            android:src="@android:drawable/btn_star_big_off" />
+            android:src="@android:drawable/btn_star_big_off"
+            android:contentDescription="Favorito"
+            tools:ignore="HardcodedText" />
 
     </RelativeLayout>
 </ScrollView>

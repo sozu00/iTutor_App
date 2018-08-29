@@ -11,12 +11,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +33,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -41,14 +41,12 @@ import java.util.List;
  */
 public class TeacherProfileFragment extends Fragment {
 
-    View v;
-    private ImageButton delete;
+    private View v;
     private UserData userData;
     private TextView nameTextView;
     private TextView phoneTextView;
     private TextView mailTextView;
     private TextView quoteTextView;
-    private SkillListAdapter adapter;
     private RatingBar ratingBar;
     private ImageButton votesInfo;
     private ImageView photo;
@@ -58,7 +56,6 @@ public class TeacherProfileFragment extends Fragment {
     private TextView price;
     private List<CheckBox> levels;
     private Button voteButton;
-    private PopupWindow mPopupWindow;
     private ImageView isFavourite;
     private ListView skillsList;
     private Boolean isFavouriteB = false;
@@ -70,6 +67,7 @@ public class TeacherProfileFragment extends Fragment {
     public void setUserData(UserData userData) {
         this.userData = userData;
     }
+    @SuppressLint("SetTextI18n")
     private void loadAllData(){
         nameTextView.setText(userData.mName);
         phoneTextView.setText(userData.mPhone);
@@ -90,7 +88,7 @@ public class TeacherProfileFragment extends Fragment {
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         v = inflater.inflate(R.layout.fragment_teacher_profile, container, false);
@@ -107,10 +105,10 @@ public class TeacherProfileFragment extends Fragment {
         formation = v.findViewById(R.id.academyTextView);
         price = v.findViewById(R.id.price2TextView);
         levels = new ArrayList<>();
-        levels.add((CheckBox) v.findViewById(R.id.basicCheck));
-        levels.add((CheckBox) v.findViewById(R.id.midCheck));
-        levels.add((CheckBox) v.findViewById(R.id.advancedCheck));
-        levels.add((CheckBox) v.findViewById(R.id.profesionalCheck));
+        levels.add(v.findViewById(R.id.basicCheck));
+        levels.add(v.findViewById(R.id.midCheck));
+        levels.add(v.findViewById(R.id.advancedCheck));
+        levels.add(v.findViewById(R.id.profesionalCheck));
         voteButton = v.findViewById(R.id.voteButton);
         isFavourite = v.findViewById(R.id.isFavouriteView);
         skillsList = v.findViewById(R.id.SkillsList);
@@ -131,146 +129,121 @@ public class TeacherProfileFragment extends Fragment {
 
     private void handleImageChanges(final File imgFile) {
         final Handler handler = new Handler();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int tries=0;
-                do{
-                    try {
-                        if(imgFile.exists()) {
-                            final Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                            handler.post(new Runnable(){
-                                public void run() {
-                                    photo.setImageBitmap(myBitmap);
-                                    v.invalidate();
-                                }
-                            });
+        new Thread(() -> {
+            int tries=0;
+            do{
+                try {
+                    if(imgFile.exists()) {
+                        final Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                        handler.post(() -> {
+                            photo.setImageBitmap(myBitmap);
+                            v.invalidate();
+                        });
 
-                            tries = 1000;
-                        }
-                        Thread.sleep(300);
-                        tries++;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        tries = 1000;
                     }
-                }while(tries <1000);
-            }
+                    Thread.sleep(300);
+                    tries++;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }while(tries <1000);
         }).start();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setListeners() {
-        votesInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                VotesFragment votesFragment = new VotesFragment();
-                votesFragment.setUserData(userData);
+        votesInfo.setOnClickListener(view -> {
+            FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+            VotesFragment votesFragment = new VotesFragment();
+            votesFragment.setUserData(userData);
 
-                fragmentTransaction.replace(R.id.main_frame, votesFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
+            fragmentTransaction.replace(R.id.main_frame, votesFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         });
-        skillsList.setOnTouchListener(new View.OnTouchListener() {
-            // Setting on Touch Listener for handling the touch inside ScrollView
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Disallow the touch request for parent scroll on touch of child view
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
+        // Setting on Touch Listener for handling the touch inside ScrollView
+        skillsList.setOnTouchListener((v, event) -> {
+            // Disallow the touch request for parent scroll on touch of child view
+            v.getParent().requestDisallowInterceptTouchEvent(true);
+            return false;
         });
 
-        call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:"+phoneTextView.getText().toString()));
-                // No explanation needed; request the permission
-                if (ActivityCompat.checkSelfPermission(v.getContext(),
-                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                v.getContext().startActivity(callIntent);
+        call.setOnClickListener(view -> {
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:"+phoneTextView.getText().toString()));
+            // No explanation needed; request the permission
+            if (ActivityCompat.checkSelfPermission(v.getContext(),
+                    Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                return;
             }
+            v.getContext().startActivity(callIntent);
         });
 
-        mail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("Enviar email", "");
-                String[] TO = {
-                       mailTextView.getText().toString()
-                };
-                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent.setData(Uri.parse("mailto:"));
-                emailIntent.setType("text/plain");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hola! He visto tu perfil en iTutor!");
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "Hola! Que tal?");
-                try {
-                    v.getContext().startActivity(Intent.createChooser(emailIntent, "Enviar mail..."));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(v.getContext(), "Necesitas un cliente de correo.", Toast.LENGTH_SHORT).show();
-                }
+        mail.setOnClickListener(view -> {
+            Log.i("Enviar email", "");
+            String[] TO = {
+                   mailTextView.getText().toString()
+            };
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setData(Uri.parse("mailto:"));
+            emailIntent.setType("text/plain");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Hola! He visto tu perfil en iTutor!");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hola! Que tal?");
+            try {
+                v.getContext().startActivity(Intent.createChooser(emailIntent, "Enviar mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(v.getContext(), "Necesitas un cliente de correo.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        voteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Boolean hasBeenVotedByYou = false;
-                    for (VoteData v : userData.getVotes()){
-                        if(v.voterID.equals(MainActivity.userData.mID))
-                            hasBeenVotedByYou = true;
-                    }
-                    if(hasBeenVotedByYou)
-                        Toast.makeText(v.getContext(), "Ya has votado a este usuario", Toast.LENGTH_SHORT).show();
-                    else {
-                        final RatingBar voteBar;
-                        final EditText voteComment;
-                        final Dialog voteDialog = new Dialog(v.getContext());
-                        voteDialog.setContentView(R.layout.popup_vote);
-                        voteDialog.setCancelable(true);
-                        voteBar = voteDialog.findViewById(R.id.voteBar);
-                        voteComment = voteDialog.findViewById(R.id.voteComment);
-                        voteBar.setRating(0);
+        voteButton.setOnClickListener(view -> {
+            Boolean hasBeenVotedByYou = false;
+            for (VoteData v : userData.getVotes()){
+                if(v.voterID.equals(MainActivity.userData.mID))
+                    hasBeenVotedByYou = true;
+            }
+            if(hasBeenVotedByYou)
+                Toast.makeText(v.getContext(), "Ya has votado a este usuario", Toast.LENGTH_SHORT).show();
+            else {
+                final RatingBar voteBar;
+                final EditText voteComment;
+                final Dialog voteDialog = new Dialog(v.getContext());
+                voteDialog.setContentView(R.layout.popup_vote);
+                voteDialog.setCancelable(true);
+                voteBar = voteDialog.findViewById(R.id.voteBar);
+                voteComment = voteDialog.findViewById(R.id.voteComment);
+                voteBar.setRating(0);
 
-                        Button updateButton = voteDialog.findViewById(R.id.confirmVoteButton);
-                        updateButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                VoteData vote = new VoteData();
-                                vote.voterID = MainActivity.userData.mID;
-                                vote.rating = voteBar.getProgress();
-                                vote.comment = voteComment.getText().toString();
-                                vote.receivingUser = userData.mID;
-                                vote.voterName = MainActivity.userData.mName;
-                                vote.voteUser();
-                                Toast.makeText(v.getContext(), "Tu voto ha sido registrado", Toast.LENGTH_SHORT).show();
-                                voteDialog.dismiss();
-                                v.invalidate();
-                            }
-                        });
-                        //now that the dialog is set up, it's time to show it
-                        voteDialog.show();
-                    }
-                }
-            });
+                Button updateButton = voteDialog.findViewById(R.id.confirmVoteButton);
+                updateButton.setOnClickListener(v -> {
+                    VoteData vote = new VoteData();
+                    vote.voterID = MainActivity.userData.mID;
+                    vote.rating = voteBar.getProgress();
+                    vote.comment = voteComment.getText().toString();
+                    vote.receivingUser = userData.mID;
+                    vote.voterName = MainActivity.userData.mName;
+                    vote.voteUser();
+                    Toast.makeText(v.getContext(), "Tu voto ha sido registrado", Toast.LENGTH_SHORT).show();
+                    voteDialog.dismiss();
+                    v.invalidate();
+                });
+                //now that the dialog is set up, it's time to show it
+                voteDialog.show();
+            }
+        });
 
 
-        isFavourite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    isFavouriteB = !isFavouriteB;
-                    isFavourite.setImageResource(isFavouriteB?R.drawable.big_star_btn_on:R.drawable.big_star_btn_off);
-                    if(isFavouriteB)
-                        MainActivity.userData.mTeachers.add(userData.mID);
-                    else
-                        MainActivity.userData.mTeachers.remove(userData.mID);
-                    isFavourite.invalidate();
-                    MainActivity.userData.uploadData();
-                }
+        isFavourite.setOnClickListener(view -> {
+            isFavouriteB = !isFavouriteB;
+            isFavourite.setImageResource(isFavouriteB?R.drawable.big_star_btn_on:R.drawable.big_star_btn_off);
+            if(isFavouriteB)
+                MainActivity.userData.mTeachers.add(userData.mID);
+            else
+                MainActivity.userData.mTeachers.remove(userData.mID);
+            isFavourite.invalidate();
+            MainActivity.userData.uploadData();
         });
     }
 }

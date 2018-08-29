@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="15dp"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    tools:ignore="Overdraw">
 
     <Button
         android:id="@+id/confirmVoteButton"
@@ -31,6 +33,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:hint="Descripcion"/>
+        android:hint="Descripcion"
+        tools:ignore="HardcodedText" />
 
 </RelativeLayout>

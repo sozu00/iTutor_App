@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/view8"
-        android:text="Formacion" />
+        android:text="Formacion"
+        tools:ignore="HardcodedText" />
 
     <Spinner
         android:id="@+id/spinnerFilter"
@@ -28,7 +29,8 @@
         android:layout_alignStart="@+id/clearFiltersButton"
         android:layout_below="@+id/midCheckFilter"
         android:checked="false"
-        android:text="Profesional" />
+        android:text="Profesional"
+        tools:ignore="HardcodedText" />
 
     <CheckBox
         android:id="@+id/advancedCheckFilter"
@@ -37,7 +39,8 @@
         android:layout_alignStart="@+id/basicCheckFilter"
         android:layout_alignTop="@+id/profesionalCheckFilter"
         android:checked="false"
-        android:text="Avanzado" />
+        android:text="Avanzado"
+        tools:ignore="HardcodedText" />
 
     <CheckBox
         android:id="@+id/midCheckFilter"
@@ -46,7 +49,8 @@
         android:layout_alignStart="@+id/clearFiltersButton"
         android:layout_alignTop="@+id/basicCheckFilter"
         android:checked="false"
-        android:text="Medio" />
+        android:text="Medio"
+        tools:ignore="HardcodedText" />
 
     <CheckBox
         android:id="@+id/basicCheckFilter"
@@ -55,7 +59,8 @@
         android:layout_alignEnd="@+id/applyFiltersButton"
         android:layout_alignTop="@+id/levelTextViewFilter"
         android:checked="false"
-        android:text="Basico" />
+        android:text="Basico"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/levelTextViewFilter"
@@ -63,7 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/view9"
-        android:text="Nivel" />
+        android:text="Nivel"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/ratingTextView"
@@ -112,7 +118,8 @@
         android:layout_below="@+id/view10"
         android:text="Precio maximo"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="HardcodedText" />
 
     <SeekBar
         android:id="@+id/maxPriceFilter"
@@ -147,7 +154,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/applyFiltersButton"
         android:layout_marginEnd="30dp"
-        android:text="@string/limpiar_filtros" />
+        android:text="@string/limpiar_filtros"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/maxPriceBarValue"

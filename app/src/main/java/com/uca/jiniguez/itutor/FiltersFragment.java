@@ -1,7 +1,9 @@
 package com.uca.jiniguez.itutor;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +15,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -36,7 +37,7 @@ public class FiltersFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.onCreateView(inflater,container,savedInstanceState);
@@ -50,10 +51,10 @@ public class FiltersFragment extends Fragment {
         applyFilters = v.findViewById(R.id.applyFiltersButton);
         clearFilters = v.findViewById(R.id.clearFiltersButton);
         levels = new ArrayList<>();
-        levels.add((CheckBox) v.findViewById(R.id.basicCheckFilter));
-        levels.add((CheckBox) v.findViewById(R.id.midCheckFilter));
-        levels.add((CheckBox) v.findViewById(R.id.advancedCheckFilter));
-        levels.add((CheckBox) v.findViewById(R.id.profesionalCheckFilter));
+        levels.add(v.findViewById(R.id.basicCheckFilter));
+        levels.add(v.findViewById(R.id.midCheckFilter));
+        levels.add(v.findViewById(R.id.advancedCheckFilter));
+        levels.add(v.findViewById(R.id.profesionalCheckFilter));
         formacion = v.findViewById(R.id.spinnerFilter);
 
         resetFilters();
@@ -65,6 +66,7 @@ public class FiltersFragment extends Fragment {
 
     private void setSeekBarsListeners() {
         ratingBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
                 ratingBarValue.setText("Desde "+String.valueOf(progress));
@@ -73,6 +75,7 @@ public class FiltersFragment extends Fragment {
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
         });
         maxPriceBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
                 maxPriceBarValue.setText("Hasta "+String.valueOf(progress)+"€/h");
@@ -98,11 +101,12 @@ public class FiltersFragment extends Fragment {
                     maxPriceBar.getProgress(),
                     formacion.getSelectedItemPosition(),
                     lvl);
-            myActivity.searchFragment.setUserData(users, v);
+            myActivity.searchFragment.setUserData(users);
             myActivity.setFragment(myActivity.searchFragment);
         });
     }
 
+    @SuppressLint("SetTextI18n")
     private void resetFilters() {
         skillFilter.setText("");
         maxPriceBar.setProgress(99);
@@ -110,7 +114,7 @@ public class FiltersFragment extends Fragment {
         ratingBarValue.setText("Desde 0");
         maxPriceBarValue.setText("Hasta 99€/h");
         for(CheckBox c : levels)
-            c.setChecked(false);
+            c.setChecked(true);
     }
 }
 
