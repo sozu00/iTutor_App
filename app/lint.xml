@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="IconDipSize">
+        <ignore path="src/main/res/drawable-hdpi/baseline_exit_to_app_black_18dp.png" />
+        <ignore path="src/main/res/drawable-mdpi/baseline_exit_to_app_black_18dp.png" />
+    </issue>
+</lint>
